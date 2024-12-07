@@ -21,15 +21,16 @@ public class property extends squares{
         return player.pay(value);
     }
 
-    public void improve(player character) {
-        if (character.check() >= this.houses[state]) {
-            if (state < 4 || recent)
-            {
+    public boolean improve(wallet character) {
+        if (character.Check() >= this.houses[state]) {
+            if (state < 4 || recent) {
                 state++;
                 character.pay(this.houses[state]);
                 recent = false;
+                return true;
             }
         }
+        return false;
     }
 
     public int getValue ()
@@ -42,10 +43,10 @@ public class property extends squares{
         return state;
     }
 
-    public void update()    //atualiza a hipoteca e a possibilidade de comprar hotel
+    public boolean update(portfolio gamer, wallet money, bank comp)    //atualiza a hipoteca e a possibilidade de comprar hotel
     {
-        register.update();
         recent = true;
+        return updateMortgage(gamer, money, this, comp);
     }
     
     public void setSet(int value)

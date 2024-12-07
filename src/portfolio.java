@@ -55,4 +55,13 @@ public class portfolio{
                 count++;
         return count;
     }
+
+    public boolean updateAll(wallet money, bank comp)
+    {
+        boolean value = true;
+        for (squares place : properties)
+            if (place instanceof property)
+                value = value && ((property) place).update(this, money, comp);
+        return value;
+    }
 }
