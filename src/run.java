@@ -59,7 +59,6 @@ public class run extends Application {
                 lastKeyPressed = "ENTER";
             } else if (event.getCode() == KeyCode.ESCAPE) {
                 lastKeyPressed = "ESC";
-                quit = true; // If ESC means quitting
             }
         });
     }
