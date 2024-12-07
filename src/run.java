@@ -76,9 +76,9 @@ public class run extends Application {
             System.out.println("Jogador " + (currentPlayer + 1) + " está jogando.");
             detectEnterOrEsc(scene);
             if (lastKeyPressed.equals("ENTER")) {
-                board.gamers[currentPlayer].move(board.map.properties(board.gamers[currentPlayer].position)
+                board.gamers[currentPlayer].move(board.map.properties.get(board.gamers[currentPlayer].position),board.dado,board.map.properties.size());
+                board.gamers[currentPlayer].update();
             }
-            // Implementar a lógica do jogador
 
             // Temporizador para FPS
             try {
