@@ -78,14 +78,17 @@ public class run extends Application {
             if (lastKeyPressed.equals("ENTER")) {
                 board.gamers[currentPlayer].move(board.map.properties.get(board.gamers[currentPlayer].position),board.dado,board.map.properties.size());
                 if (board.gamers[currentPlayer].verifyOwnership == false) {
-                    board.gamers[currentPlayer].update();
+                    board.gamers[currentPlayer].bankruptcy = board.gamers[currentPlayer].update();
                     //Chama metodos pedindo se ele quer comprar a propriedade do banco ou outro player
                 }
                 else {
                     board.gamers[currentPlayer].improveProperty();
                 }
             }
-
+            board.gamers[currentPlayer].checkVictory();
+            currentPlayer++;
+            if (currentPlayer >= totalPlayers)
+                currentPlayer = 0;
             // Temporizador para FPS
             try {
                 double remainingTime = nextDrawTime - System.nanoTime();
@@ -97,10 +100,6 @@ public class run extends Application {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-            currentPlayer++;
-            if (currentPlayer >= totalPlayers)
-                currentPlayer = 0;
         }
     }
 }
