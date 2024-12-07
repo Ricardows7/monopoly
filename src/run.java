@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 public class run extends Application {
 
     private boolean quit = false;
+    private String lastKeyPressed = "";
 
     public static void main(String[] args) {
         launch(args); // Inicializa o JavaFX
@@ -52,17 +53,32 @@ public class run extends Application {
         System.out.println("Inicializando o jogo...");
     }
 
+    private void detectEnterOrEsc(Scene scene) {
+        scene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                lastKeyPressed = "ENTER";
+            } else if (event.getCode() == KeyCode.ESCAPE) {
+                lastKeyPressed = "ESC";
+                quit = true; // If ESC means quitting
+            }
+        });
+    }
+
     private void gameLoop(int totalPlayers) {
         // Implementar lógica do loop do jogo
+        int currentPlayer = 0;
         double FPS = 60;
         double drawInterval = 1000000000 / FPS;
         double nextDrawTime = System.nanoTime() + drawInterval;
 
         while (!quit) {
-            for (int currentPlayer = 0; currentPlayer < totalPlayers; currentPlayer++) {
-                System.out.println("Jogador " + (currentPlayer + 1) + " está jogando.");
-                // Implementar a lógica do jogador
+            // Desenha o tabuleiro
+            System.out.println("Jogador " + (currentPlayer + 1) + " está jogando.");
+            detectEnterOrEsc(scene);
+            if (lastKeyPressed.equals("ENTER")) {
+
             }
+            // Implementar a lógica do jogador
 
             // Temporizador para FPS
             try {
@@ -75,6 +91,10 @@ public class run extends Application {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            currentPlayer++;
+            if (currentPlayer >= totalPlayers)
+                currentPlayer = 0;
         }
     }
 }
