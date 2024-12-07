@@ -76,7 +76,7 @@ public class run extends Application {
             System.out.println("Jogador " + (currentPlayer + 1) + " está jogando.");
             detectEnterOrEsc(scene);
             if (lastKeyPressed.equals("ENTER")) {
-
+                board.gamers[currentPlayer].move
             }
             // Implementar a lógica do jogador
 
