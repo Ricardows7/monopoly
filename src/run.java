@@ -77,13 +77,16 @@ public class run extends Application {
             detectEnterOrEsc(scene);
             if (lastKeyPressed.equals("ENTER")) {
                 board.gamers[currentPlayer].move(board.map.properties.get(board.gamers[currentPlayer].position),board.dado,board.map.properties.size());
+                board.gamers[currentPlayer].bankruptcy = board.gamers[currentPlayer].update();
                 if (board.gamers[currentPlayer].verifyOwnership == false) {
-                    board.gamers[currentPlayer].bankruptcy = board.gamers[currentPlayer].update();
                     //Chama metodos pedindo se ele quer comprar a propriedade do banco ou outro player
                 }
                 else {
                     board.gamers[currentPlayer].improveProperty();
                 }
+            }
+            else if (lastKeyPressed.equals("ESQ")) {
+                pauseMenu();
             }
             board.gamers[currentPlayer].checkVictory();
             currentPlayer++;
