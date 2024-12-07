@@ -82,7 +82,7 @@ public class run extends Application {
                     //Chama metodos pedindo se ele quer comprar a propriedade do banco ou outro player
                 }
                 else {
-                    board.gamers[currentPlayer].improve();
+                    board.gamers[currentPlayer].improveProperty();
                 }
             }
 
