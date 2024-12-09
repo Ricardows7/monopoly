@@ -14,42 +14,6 @@ public class run{  //AQUI TA FALANDO QUE RUN TEM QUE USAR START SE FOR HERDAR AP
     private String lastKeyPressed = "";
     private draw make = new draw(); //faco assim?
 
-    /* 
-    public static void main(String[] args) {
-
-        Application.launch(Draw.class, args);
-        int playerAmount = draw.menu();
-        if (playerAmount == 0) {
-            System.out.println("Jogo encerrado.");
-            return;
-        } else if (playerAmount > 0) {
-            initializer start = new initializer();
-            monopoly.board tabuleiro = start.startBoard(playerAmount, 40);
-            startGameLoop(playerAmount, tabuleiro);
-        }
-    }
-
-    @Override
-    public void start(Stage primaryStage) {
-        // Configurar a janela principal do JavaFX
-        VBox layout = new VBox();
-
-        Scene scene = new Scene(layout, 300, 200);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Jogo");
-        primaryStage.show();
-
-        //initializer();
-        monopoly.board tabuleiro = new monopoly.board(playerAmount); //TEM QUE INICIALIZAR O TABULEIRO COM TUDO PRONTO AQUI E MANDAR PRO LOOP!!!
-        property prop = new property(0, 0);
-        prop.value[0] = 1000;
-        prop.houses[0] = 1500;
-        prop.rent[0] = 500;
-        tabuleiro.map.addProp(prop);
-        startGameLoop(playerAmount, tabuleiro, scene, primaryStage);
-    };
-    */
-
     private void initializer() {    //ONDE COLOCA ISSO?
         // Implementar lógica de inicialização do jogo
         System.out.println("Inicializando o jogo...");
@@ -122,10 +86,10 @@ public class run{  //AQUI TA FALANDO QUE RUN TEM QUE USAR START SE FOR HERDAR AP
 
                     if ("ENTER".equals(lastKeyPressed)) {
                         if (!gamer.checkIfBroke()) {
-                            Button die = make.manageButton("Lance os dados", true); //BOTAO DE JOGAR DADO! TEM QUE VER COMO CHAMAR FUNCAO DO DRAW AQUI!
+                            /*Button die = make.manageButton("Lance os dados", true); //BOTAO DE JOGAR DADO! TEM QUE VER COMO CHAMAR FUNCAO DO DRAW AQUI!
                             die.setOnAction(e -> {
                                 tabuleiro.getDie().throwDie();
-                            });
+                            });*/
                         }
                         if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(),
                                 tabuleiro.getSquaresQuantity())) {
@@ -133,7 +97,7 @@ public class run{  //AQUI TA FALANDO QUE RUN TEM QUE USAR START SE FOR HERDAR AP
                             stocks = tabuleiro.getGamers()[stocks].checkStocks();
                             gamer.update(tabuleiro.getLocation(gamer.getPosition()), tabuleiro.getBank(),
                                     tabuleiro.getSquaresQuantity(), stocks, tabuleiro.getGamers(),
-                                    monopoly.board.getPlayers(), gamer.getId());
+                                    tabuleiro.getPlayers(), gamer.getId());
                         }
 
                         // Handle game logic (bankruptcy, victory, etc.)
@@ -143,7 +107,7 @@ public class run{  //AQUI TA FALANDO QUE RUN TEM QUE USAR START SE FOR HERDAR AP
                             boolean mode = true;
 
                             if (!gamer.verifyOwnership(tabuleiro.getBank())) { //se o player NAO e dono
-                                Button buyPropertyButton = make.manageButton("Comprar Propriedade", true);
+                                //Button buyPropertyButton = make.manageButton("Comprar Propriedade", true);
                                 if (gamer.Check() < land.getValue())
                                     make.buttonSwitch(buyPropertyButton, false); //se nao tem dinheiro, botao translucido
                                 else
@@ -151,10 +115,10 @@ public class run{  //AQUI TA FALANDO QUE RUN TEM QUE USAR START SE FOR HERDAR AP
 
                                 if (tabuleiro.getBank().getOwner(gamer.getPosition()) != 0) { //Verificar se a propriedade nao e possuida pelo banco
                                     player rival = monopoly.board.getPlayer(tabuleiro.getBank().getOwner(gamer.getPosition()));
-                                    buyPropertyButton.setOnAction(e -> {
+                                    /*buyPropertyButton.setOnAction(e -> {
                                         (tabuleiro.getBank()).sellProperties(gamer.getPortfolio(), rival.getPortfolio(),
                                                 rival.getWallet(), gamer.getWallet(), gamer.getId(), land, true);
-                                    });
+                                    });*/
                                 } else {
                                     buyPropertyButton.setOnAction(e -> {
                                         (tabuleiro.getBank()).sellProperties(gamer.getPortfolio(), gamer.getWallet(),
