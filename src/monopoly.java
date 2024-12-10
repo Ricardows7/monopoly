@@ -41,6 +41,10 @@ public class monopoly {
 
         public static player getPlayer(int id) //pegar qualquer player especifico
         {
+            if (id < 0)
+                return null;
+            else if (id >= numPlayers)
+                return null;
             return gamers[id];
         }
 
