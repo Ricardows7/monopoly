@@ -90,7 +90,7 @@ public class bank {
         return gamer.pay(value);
     }
 
-    public boolean exchange (wallet giver, wallet receiver, long value)
+    private boolean exchange (wallet giver, wallet receiver, long value)
     {
         if (giver.Check() >= value)
         {
@@ -101,7 +101,7 @@ public class bank {
         return false;
     }
     
-    public boolean exchange (wallet giver, bank receiver, long value)   //pagar pro banco!
+    private boolean exchange (wallet giver, bank receiver, long value)   //pagar pro banco!
     {
         if (giver.Check() >= value)
         {
@@ -111,7 +111,7 @@ public class bank {
         return false;
     }
 
-    public boolean exchange (bank giver, wallet receiver, long value)   //receber do banco!
+    private boolean exchange (bank giver, wallet receiver, long value)   //receber do banco!
     {
         receiver.receive(value);
         return true;
