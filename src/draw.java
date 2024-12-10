@@ -43,6 +43,10 @@
                     monopoly.board tabuleiro = start.startBoard(numP, 40);
                     loadGame.getSave(tabuleiro.getGamers(), tabuleiro);
                 }
+                else {
+                    System.out.println("Crie um novo jogo!");
+                    return;
+                }
             }
 
             initializer start = new initializer();
@@ -481,6 +485,7 @@
         * };
         */
 
+        /* 
 
         private void pauseMenu(AnimationTimer gameTimer) {
             // Pause the game timer
@@ -517,15 +522,18 @@
             // Show the pause menu
             pauseStage.showAndWait(); // Blocks interaction with the main game window
         }
-
+*/
         public void startGameLoop(int totalPlayers, monopoly.board tabuleiro) {
             // Track current player using an array for mutability
+            save saveGame = new save();
+            //int currentPlayer = 0;
+            //int currentRound = 0;
             int maxRounds = 30;
             double FPS = 60;
             double drawInterval = 1_000_000_000 / FPS; // Frame interval in nanoseconds
             long[] lastUpdateTime = { System.nanoTime() }; // Store last update time
-
-            AnimationTimer gameTimer = new AnimationTimer() {
+            
+            AnimationTimer gameTimer = new AnimationTimer(){
                 @Override
                 public void handle(long currentTime) {
                     if ((currentTime - lastUpdateTime[0] >= drawInterval)
@@ -533,7 +541,7 @@
                         // Update game logic
                         System.out.println("Jogador " + (currentPlayer + 1) + " está jogando.");
                         player gamer = tabuleiro.getGamers()[currentPlayer];
-
+                        
                         if (!gamer.checkIfBroke()) {
                             diceUI(root, tabuleiro.getDie());
                         }
@@ -542,7 +550,8 @@
 
                             movePlayer(gamer, tabuleiro.getDie().checkTotalValue());
                             int stocks = tabuleiro.getBank().getOwner(gamer.getPosition());
-                            stocks = tabuleiro.getGamers()[stocks].checkStocks();
+                            if (stocks != -1)
+                                stocks = tabuleiro.getGamers()[stocks].checkStocks();
                             
                             gamer.update(tabuleiro.getLocation(gamer.getPosition()), tabuleiro.getBank(),
                                     tabuleiro.getSquaresQuantity(), stocks, tabuleiro.getGamers(),
@@ -580,7 +589,7 @@
                             } else {
                                 // EU NAO SEI OQ FAZER MAIS!!!
                             }
-                            /**/
+                            
                         }
                         if (currentRound >= maxRounds)
                             stop();
@@ -588,6 +597,7 @@
                             System.out.println("Jogador " + (currentPlayer + 1) + " venceu o jogo!");
                             stop(); // Stop the game loop
                         } else {
+                            saveGame.saveGame(tabuleiro.getGamers(),monopoly.board.getPlayers());
                             currentPlayer++; // Move to next player
                             if (currentPlayer >= monopoly.board.getPlayers()) {
                                 currentPlayer = 0;
@@ -599,6 +609,7 @@
                         // Update time
                         lastUpdateTime[0] = currentTime;
                     } else if (tabuleiro.getGamers()[currentPlayer].getBankruptcy()) {
+                        saveGame.saveGame(tabuleiro.getGamers(),monopoly.board.getPlayers());
                         currentPlayer++; // Move to next player
                         if (currentPlayer >= monopoly.board.getPlayers()) {
                             currentPlayer = 0;
