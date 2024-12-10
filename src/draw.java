@@ -481,6 +481,7 @@
         * };
         */
 
+        /* 
 
         private void pauseMenu(AnimationTimer gameTimer) {
             // Pause the game timer
@@ -517,15 +518,15 @@
             // Show the pause menu
             pauseStage.showAndWait(); // Blocks interaction with the main game window
         }
-
+*/
         public void startGameLoop(int totalPlayers, monopoly.board tabuleiro) {
             // Track current player using an array for mutability
             int maxRounds = 30;
             double FPS = 60;
             double drawInterval = 1_000_000_000 / FPS; // Frame interval in nanoseconds
             long[] lastUpdateTime = { System.nanoTime() }; // Store last update time
-
-            AnimationTimer gameTimer = new AnimationTimer() {
+            
+            AnimationTimer gameTimer = new AnimationTimer(){
                 @Override
                 public void handle(long currentTime) {
                     if ((currentTime - lastUpdateTime[0] >= drawInterval)
@@ -533,7 +534,7 @@
                         // Update game logic
                         System.out.println("Jogador " + (currentPlayer + 1) + " está jogando.");
                         player gamer = tabuleiro.getGamers()[currentPlayer];
-
+                        
                         if (!gamer.checkIfBroke()) {
                             diceUI(root, tabuleiro.getDie());
                         }
@@ -580,7 +581,7 @@
                             } else {
                                 // EU NAO SEI OQ FAZER MAIS!!!
                             }
-                            /**/
+                            
                         }
                         if (currentRound >= maxRounds)
                             stop();
