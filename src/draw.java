@@ -948,7 +948,7 @@ public class draw extends Application {
     
                             case DIGIT3: // Comprar
                                 if (hasPlayed) {
-                                    int owner = tabuleiro.getBank().getOwner(maxRounds);
+                                    int owner = tabuleiro.getBank().getOwner(gamer.getPosition());
                                     boolean foi = false;
                                     if (owner == gamer.getId())
                                     {
