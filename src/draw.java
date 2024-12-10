@@ -549,7 +549,8 @@
 
                             movePlayer(gamer, tabuleiro.getDie().checkTotalValue());
                             int stocks = tabuleiro.getBank().getOwner(gamer.getPosition());
-                            stocks = tabuleiro.getGamers()[stocks].checkStocks();
+                            if (stocks != -1)
+                                stocks = tabuleiro.getGamers()[stocks].checkStocks();
                             
                             gamer.update(tabuleiro.getLocation(gamer.getPosition()), tabuleiro.getBank(),
                                     tabuleiro.getSquaresQuantity(), stocks, tabuleiro.getGamers(),
