@@ -515,8 +515,8 @@
         }
 
         // Move player movement vezes
-        public static void movePlayer(player player, int movement) {
-            int pos = player.getPosition();
+        public static void movePlayer(player player, int lastPos, int movement) {
+            int pos = lastPos;
             
             while (movement > 0) {
                 if (pos < 10)
@@ -528,7 +528,7 @@
                 else if (pos < 40)
                     players[player.getId()].setTranslateX(players[player.getId()].getTranslateX() - stepSize);
                 
-                pos++;
+                pos = (pos + 1) % 40;
                 movement--;
             }
             return;
@@ -747,9 +747,10 @@
                         
                     if (!gamer.checkIfBroke()) {
                         diceUI(root, tabuleiro.getDie(), () -> {
+                            int lastPos = gamer.getPosition();
                             if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(), tabuleiro.getSquaresQuantity())) {
 
-                                movePlayer(gamer, tabuleiro.getDie().checkTotalValue());
+                                movePlayer(gamer, lastPos,tabuleiro.getDie().checkTotalValue());
                                 int stocks = tabuleiro.getBank().getOwner(gamer.getPosition());
                                 if (stocks != -1)
                                     stocks = tabuleiro.getGamers()[stocks].checkStocks();
@@ -758,7 +759,7 @@
                                             tabuleiro.getSquaresQuantity(), stocks, tabuleiro.getGamers(),
                                             monopoly.board.getPlayers(), gamer.getId());
     
-                                movePlayer(gamer, gamer.getSpecialDistance());
+                                movePlayer(gamer, lastPos,gamer.getSpecialDistance());
                                 gamer.zeraSpecialDistance();
     
                             }
