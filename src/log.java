@@ -79,7 +79,7 @@ public class log {
         this.mortgaged = value;
     }
 
-    public boolean update ()
+    private boolean update ()
     {
         if (parcelas > 0)
             parcelas -= 1;

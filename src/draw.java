@@ -894,39 +894,26 @@ public class draw extends Application {
                                         hasPlayed = true;
                                         int lastPos = gamer.getPosition();
     
-                                        if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(), tabuleiro.getSquaresQuantity())) {
+                                        if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(),
+                                                tabuleiro.getSquaresQuantity())) {
                                             movePlayer(gamer, lastPos, tabuleiro.getDie().checkTotalValue());
-    
+
                                             int stocks = tabuleiro.getBank().getOwner(gamer.getPosition());
                                             if (stocks != -1)
                                                 stocks = tabuleiro.getGamers()[stocks].checkStocks();
-    
+
                                             gamer.update(
-                                                tabuleiro.getLocation(gamer.getPosition()), 
-                                                tabuleiro.getBank(),
-                                                tabuleiro.getSquaresQuantity(), 
-                                                stocks, 
-                                                tabuleiro.getGamers(),
-                                                monopoly.board.getPlayers(), 
-                                                gamer.getId()
-                                            );
-    
+                                                    tabuleiro.getLocation(gamer.getPosition()),
+                                                    tabuleiro.getBank(),
+                                                    tabuleiro.getSquaresQuantity(),
+                                                    stocks,
+                                                    tabuleiro.getGamers(),
+                                                    monopoly.board.getPlayers(),
+                                                    gamer.getId());
+
                                             movePlayer(gamer, lastPos, gamer.getSpecialDistance());
                                             gamer.zeraSpecialDistance();
-    
-                                            // Tratamento de lógica específica do local
-                                            if (!gamer.getBankruptcy() && !(tabuleiro.getLocation(gamer.getPosition()) instanceof special)) {
-                                                squares land = tabuleiro.getLocation(gamer.getPosition());
-                                                player rival = monopoly.board.getPlayer(tabuleiro.getBank().getOwner(gamer.getPosition()));
-    
-                                                if (land instanceof property) {
-                                                    propertyUI(getRoot(), (property) land, gamer, tabuleiro.getBank(), gamer.getPortfolio(),
-                                                        rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), gamer.getId(), land);
-                                                } else if (land instanceof stocks) {
-                                                    stocksUI(getRoot(), (stocks) land, tabuleiro.getBank(), gamer, gamer.getPortfolio(),
-                                                        rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), land);
-                                                }
-                                            }
+
                                         }
                                         statusLabel.setText("Operação concluída com sucesso.");
                                     });
@@ -937,7 +924,7 @@ public class draw extends Application {
     
                             case DIGIT1: // Melhorar
                                 if (hasPlayed) {
-                                    if (land instanceof property && gamer.improveProperty((property)land, tabuleiro.getBank())) {
+                                    if ((land instanceof property) && gamer.improveProperty((property)land, tabuleiro.getBank())) {
                                         statusLabel.setText("Propriedade melhorada com sucesso.");
                                     } else {
                                         statusLabel.setText("Falha ao melhorar a propriedade.");
@@ -971,10 +958,10 @@ public class draw extends Application {
                                     if (tabuleiro.getBank().getOwner(gamer.getPosition()) != 0)
                                     {
                                         player rival = monopoly.board.getPlayer(owner);
-                                        foi = tabuleiro.getBank().sellProperties(gamer.getPortfolio(), rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), gamer.getId(), land, true);
+                                        foi = gamer.playerNegotiation(tabuleiro.getBank(), rival.getPortfolio(), rival.getWallet(), land, true);
                                     }
                                     else
-                                        foi = tabuleiro.getBank().sellProperties(gamer.getPortfolio(), gamer.getWallet(), gamer.getId(), land, true);
+                                        foi = gamer.bankNegotiation(tabuleiro.getBank(), land, false);
 
                                     if (foi) {
                                         statusLabel.setText("Propriedade comprada com sucesso.");
