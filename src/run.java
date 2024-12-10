@@ -107,12 +107,12 @@ public class run{  //AQUI TA FALANDO QUE RUN TEM QUE USAR START SE FOR HERDAR AP
                             boolean mode = true;
 
                             if (!gamer.verifyOwnership(tabuleiro.getBank())) { //se o player NAO e dono
+                                /*if (gamer.Check() < land.getValue())
                                 //Button buyPropertyButton = make.manageButton("Comprar Propriedade", true);
-                                if (gamer.Check() < land.getValue())
                                     make.buttonSwitch(buyPropertyButton, false); //se nao tem dinheiro, botao translucido
                                 else
                                     make.buttonSwitch(buyPropertyButton, true);
-
+                                
                                 if (tabuleiro.getBank().getOwner(gamer.getPosition()) != 0) { //Verificar se a propriedade nao e possuida pelo banco
                                     player rival = monopoly.board.getPlayer(tabuleiro.getBank().getOwner(gamer.getPosition()));
                                     /*buyPropertyButton.setOnAction(e -> {
