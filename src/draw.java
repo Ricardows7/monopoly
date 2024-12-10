@@ -33,6 +33,7 @@
         private Label round;
         private Label player;
 
+        private boolean playerTurnCompleted = false;
         public StackPane getRoot() {
             return root;
         }
@@ -824,9 +825,9 @@
             //double FPS = 60;
             //double drawInterval = 1_000_000_000 / FPS; // Frame interval in nanoseconds
             //long[] lastUpdateTime = { System.nanoTime() }; // Store last update time
-            
 
             while (currentRound < maxRounds) {
+                playerTurnCompleted = false;
                 if ((!tabuleiro.getGamers()[currentPlayer].getBankruptcy())) {
                     // Update game logic
                     System.out.println("Jogador " + (currentPlayer + 1) + " está jogando.");
@@ -834,6 +835,7 @@
                         
                     if (!gamer.checkIfBroke()) {
                         diceUI(root, tabuleiro.getDie(), () -> {
+                            playerTurnCompleted = true;
                             int lastPos = gamer.getPosition();
                             if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(), tabuleiro.getSquaresQuantity())) {
 
@@ -866,9 +868,7 @@
                                 // EU NAO SEI OQ FAZER MAIS!!!
                                 }
                                 }
-                            }
-                        });
-                        if (currentRound >= maxRounds){}
+                            }if (currentRound >= maxRounds){}
                             //stop();
                         else if (gamer.checkVictory(tabuleiro.getBank(), tabuleiro.getStocksQuantity()) == 1) {
                             System.out.println("Jogador " + (currentPlayer + 1) + " venceu o jogo!");
@@ -884,6 +884,9 @@
                             }
                             updateUI();
                         }
+                        });
+
+                        
                     }
                     // Update time
                     //lastUpdateTime[0] = currentTime;
