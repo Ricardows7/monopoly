@@ -434,9 +434,9 @@
 
         // Move player movement vezes
         public static void movePlayer(player player, int movement) {
+            int pos = player.getPosition();
+            
             while (movement > 0) {
-                int pos = player.getPosition();
-
                 if (pos < 10)
                     players[player.getId()].setTranslateY(players[player.getId()].getTranslateY() - stepSize);
                 else if (pos < 20)
@@ -445,7 +445,8 @@
                     players[player.getId()].setTranslateY(players[player.getId()].getTranslateY() + stepSize);
                 else if (pos < 40)
                     players[player.getId()].setTranslateX(players[player.getId()].getTranslateX() - stepSize);
-
+                
+                pos++;
                 movement--;
             }
             return;
@@ -657,7 +658,7 @@
             
 
             while (currentRound < maxRounds) {
-                if ((!tabuleiro.getGamers()[currentPlayer].getBankruptcy()) {
+                if ((!tabuleiro.getGamers()[currentPlayer].getBankruptcy())) {
                     // Update game logic
                     System.out.println("Jogador " + (currentPlayer + 1) + " está jogando.");
                     player gamer = tabuleiro.getGamers()[currentPlayer];
