@@ -279,7 +279,7 @@
                 pause.setOnFinished(event -> root.getChildren().remove(diceBox));
                 pause.play();
             });
-        }*/
+        }*/ /* 
         //DICE QUE TAVA RELATIVAMENTE OK 
         public void diceUI(StackPane root, dice die, Runnable onDiceRolled) {
             Button rollButton = new Button("Roll dice");
@@ -319,28 +319,46 @@
                 });
                 pause.play();
             });
-        }
-        /* 
-        public void diceUI(StackPane root, dice die, Runnable onRollComplete) {
+        }*/
+
+        public void diceUI(StackPane root, dice die, Runnable onTurnFinished) {
             Button rollButton = new Button("Roll dice");
-            VBox button = new VBox();
         
-            button.setAlignment(Pos.CENTER);
-            button.getChildren().add(rollButton);
-            button.setPrefSize(200, 150);
-            root.getChildren().addAll(button);
+            VBox buttonBox = new VBox();
+            buttonBox.setAlignment(Pos.CENTER);
+            buttonBox.getChildren().add(rollButton);
+            root.getChildren().add(buttonBox);
         
             rollButton.setOnAction(e -> {
                 die.throwDie();
-                root.getChildren().remove(button); // Remove o botão após clicar
-                if (onRollComplete != null) {
-                    onRollComplete.run(); // Libera o fluxo quando o dado for jogado
-                }
+                
+                // Atualizar o que precisa na interface
+                root.getChildren().remove(buttonBox);
+        
+                // Lógica para mostrar os dados rolados
+                String base = "dice_";
+                ImageView dice1 = new ImageView(imageManager.getImage(base + die.checkValue1()));
+                ImageView dice2 = new ImageView(imageManager.getImage(base + die.checkValue2()));
+                dice1.setFitWidth(75);
+                dice2.setFitWidth(75);
+        
+                HBox diceBox = new HBox(10);
+                diceBox.getChildren().addAll(dice1, dice2);
+                diceBox.setAlignment(Pos.CENTER);
+                root.getChildren().add(diceBox);
+        
+                // Notificar que o jogador fez sua jogada
+                onTurnFinished.run();  // Liberar o fluxo para o próximo jogador
+        
+                // Remover os dados após alguns segundos
+                PauseTransition pause = new PauseTransition(Duration.seconds(4));
+                pause.setOnFinished(event -> root.getChildren().remove(diceBox));
+                pause.play();
             });
-        }        
-        */
+        }
+        
 
-        public void propertyUI(StackPane root, property prop, player player, bank comp, portfolio receiver, portfolio giver,
+        /*public void propertyUI(StackPane root, property prop, player player, bank comp, portfolio receiver, portfolio giver,
                 wallet owner, wallet buyer, int buyerId, squares place) {
         
             Label propertyPriceLabel = new Label("Property Cost: $" + prop.getValue());
@@ -827,7 +845,6 @@
             //long[] lastUpdateTime = { System.nanoTime() }; // Store last update time
 
             while (currentRound < maxRounds) {
-                playerTurnCompleted = false;
                 if ((!tabuleiro.getGamers()[currentPlayer].getBankruptcy())) {
                     // Update game logic
                     System.out.println("Jogador " + (currentPlayer + 1) + " está jogando.");
