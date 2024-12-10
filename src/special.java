@@ -50,12 +50,17 @@ public class special extends squares{
 
     public void finishLine(wallet money, long value)
     {
+        if (money == null)
+            return;
         if (category == 3) //evento de ganhar dinheiro
             money.receive(value);
     }
     
     public int taxes (wallet money, long value)
     {
+        if (money == null)
+            return -1;
+
         if (category == 4)
         {
             if (!money.pay(value))
