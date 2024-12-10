@@ -134,7 +134,7 @@ public class bank {
 
     public boolean checkFullMonopoly(int owner_id)
     {
-        return this.checkFullMonopoly(owner_id);
+        return this.dataBank.checkFullMonopoly(owner_id);
     }
 
     public boolean allStocks (portfolio gamer, int stocksQuantity)
