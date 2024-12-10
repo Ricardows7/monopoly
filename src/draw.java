@@ -798,7 +798,7 @@
             //double FPS = 60;
             //double drawInterval = 1_000_000_000 / FPS; // Frame interval in nanoseconds
             //long[] lastUpdateTime = { System.nanoTime() }; // Store last update time
-            
+            boolean playerTurnCompleted = false;
 
             while (currentRound < maxRounds) {
                 if ((!tabuleiro.getGamers()[currentPlayer].getBankruptcy()) {
@@ -808,6 +808,7 @@
                         
                     if (!gamer.checkIfBroke()) {
                         diceUI(root, tabuleiro.getDie(), () -> {
+                            playerTurnCompleted = true;
                             if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(), tabuleiro.getSquaresQuantity())) {
 
                                 movePlayer(gamer, tabuleiro.getDie().checkTotalValue());
@@ -842,6 +843,15 @@
                                 }
                             }
                         });
+
+                        while (!playerTurnCompleted) {
+                            try {
+                                Thread.sleep(100); // Aguarda a interação
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
                         if (currentRound >= maxRounds){}
                             //stop();
                         else if (gamer.checkVictory(tabuleiro.getBank(), tabuleiro.getStocksQuantity()) == 1) {
