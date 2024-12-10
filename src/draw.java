@@ -32,7 +32,7 @@ public class draw extends Application {
         //else if (op == 2)
             //Logica p/ continuar um save
         
-        run game = new run();
+        //run game = new run();
         initializer start = new initializer();
         monopoly.board tabuleiro = start.startBoard(numP,40);
         moneyLabels = new Label[tabuleiro.getPlayers()];
@@ -41,7 +41,8 @@ public class draw extends Application {
         StackPane root = createGameLayout(primaryStage, tabuleiro); 
         Scene scene = new Scene(root);
         
-        game.startGameLoop(numP,tabuleiro,scene,primaryStage);   //AQUI TA DANDO ERRO!!!
+        diceUI(root, tabuleiro.getDie());
+        //game.startGameLoop(numP,tabuleiro,scene,primaryStage);   //AQUI TA DANDO ERRO!!!
 
         // background da tela
         BackgroundFill fill = new BackgroundFill(Color.web("#FFEE8C90"), null, null);
