@@ -761,28 +761,27 @@
     
                                 movePlayer(gamer, lastPos,gamer.getSpecialDistance());
                                 gamer.zeraSpecialDistance();
-    
-                            }
-                        });
-                        
-                        // Handle game logic (bankruptcy, victory, etc.)
-                        if (!gamer.getBankruptcy() && !(tabuleiro.getLocation(gamer.getPosition()) instanceof special)) {
-                            squares land = tabuleiro.getLocation(gamer.getPosition()); // separa o terreno e modo
+
+                                 // Handle game logic (bankruptcy, victory, etc.)
+                                if (!gamer.getBankruptcy() && !(tabuleiro.getLocation(gamer.getPosition()) instanceof special)) {
+                                    squares land = tabuleiro.getLocation(gamer.getPosition()); // separa o terreno e modo
                                                                                     // capitalista (nao troca)
 
-                            player rival = monopoly.board.getPlayer(tabuleiro.getBank().getOwner(gamer.getPosition()));
+                                player rival = monopoly.board.getPlayer(tabuleiro.getBank().getOwner(gamer.getPosition()));
 
-                            if (land instanceof property) {
-                                propertyUI(getRoot(), (property) land, gamer, tabuleiro.getBank(), gamer.getPortfolio(),
+                                if (land instanceof property) {
+                                    propertyUI(getRoot(), (property) land, gamer, tabuleiro.getBank(), gamer.getPortfolio(),
                                         rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), gamer.getId(), land, () -> {
-                                        });
-                            } else if (land instanceof stocks) {
-                                stocksUI(getRoot(), (stocks) land, tabuleiro.getBank(), gamer, gamer.getPortfolio(),
+                                    });
+                                } else if (land instanceof stocks) {
+                                    stocksUI(getRoot(), (stocks) land, tabuleiro.getBank(), gamer, gamer.getPortfolio(),
                                         rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), land);
-                            } else {
+                                } else {
                                 // EU NAO SEI OQ FAZER MAIS!!!
+                                }
+                                }
                             }
-                        }
+                        });
                         if (currentRound >= maxRounds){}
                             //stop();
                         else if (gamer.checkVictory(tabuleiro.getBank(), tabuleiro.getStocksQuantity()) == 1) {
