@@ -104,8 +104,10 @@ public class player {
             if (owner != id)
                 value = ((stocks) place).payDebt(money, ownerStocks);
         }
-        else //considerando que so tem 3 tipos de squares
+        else if (place instanceof special)//considerando que so tem 3 tipos de squares
         {
+            if (money == null)
+                return false;
             int distance = ((special) place).fallSpecial(money, comp.getSalary(), gamers, position, id, playerAmount, totalSquares, comp);
             if (distance > 0)
             {
