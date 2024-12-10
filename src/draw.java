@@ -19,7 +19,8 @@
 
     public class draw extends Application {
         private double boardSize;
-        private static double stepSize;
+        private static double stepSizeY;
+        private static double stepSizeX;
 
         private Label[] moneyLabels;
 
@@ -125,7 +126,8 @@
             players = new ImageView[monopoly.board.getPlayers()];
 
             this.boardSize = boardViewer.getImage().getWidth();
-            stepSize = boardSize / 23;
+            stepSizeY = boardSize / 23;
+            stepSizeX = boardSize / 21;
 
             // Pane pra posicionamento de players
             root.getChildren().add(paneAux);
@@ -520,13 +522,13 @@
             
             while (movement > 0) {
                 if (pos < 10)
-                    players[player.getId()].setTranslateY(players[player.getId()].getTranslateY() - stepSize);
+                    players[player.getId()].setTranslateY(players[player.getId()].getTranslateY() - stepSizeY);
                 else if (pos < 20)
-                    players[player.getId()].setTranslateX(players[player.getId()].getTranslateX() + stepSize);
+                    players[player.getId()].setTranslateX(players[player.getId()].getTranslateX() + stepSizeX);
                 else if (pos < 30)
-                    players[player.getId()].setTranslateY(players[player.getId()].getTranslateY() + stepSize);
+                    players[player.getId()].setTranslateY(players[player.getId()].getTranslateY() + stepSizeY);
                 else if (pos < 40)
-                    players[player.getId()].setTranslateX(players[player.getId()].getTranslateX() - stepSize);
+                    players[player.getId()].setTranslateX(players[player.getId()].getTranslateX() - stepSizeX);
                 
                 pos = (pos + 1) % 40;
                 movement--;
