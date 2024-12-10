@@ -525,6 +525,7 @@
 */
         public void startGameLoop(int totalPlayers, monopoly.board tabuleiro) {
             // Track current player using an array for mutability
+            save saveGame = new save();
             int currentPlayer = 0;
             int currentRound = 0;
             int maxRounds = 30;
@@ -596,6 +597,7 @@
                             System.out.println("Jogador " + (currentPlayer + 1) + " venceu o jogo!");
                             stop(); // Stop the game loop
                         } else {
+                            saveGame.saveGame(tabuleiro.getGamers(),tabuleiro);
                             currentPlayer++; // Move to next player
                             if (currentPlayer >= monopoly.board.getPlayers()) {
                                 currentPlayer = 0;
@@ -607,6 +609,7 @@
                         // Update time
                         lastUpdateTime[0] = currentTime;
                     } else if (tabuleiro.getGamers()[currentPlayer].getBankruptcy()) {
+                        saveGame.saveGame(tabuleiro.getGamers(),tabuleiro);
                         currentPlayer++; // Move to next player
                         if (currentPlayer >= monopoly.board.getPlayers()) {
                             currentPlayer = 0;
