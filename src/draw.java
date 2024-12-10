@@ -529,8 +529,7 @@
             AnimationTimer gameTimer = new AnimationTimer(){
                 @Override
                 public void handle(long currentTime) {
-                    if ((currentTime - lastUpdateTime[0] >= drawInterval)
-                            && (!tabuleiro.getGamers()[currentPlayer].getBankruptcy())) {
+                    if ((currentTime - lastUpdateTime[0] >= drawInterval) && (!tabuleiro.getGamers()[currentPlayer].getBankruptcy())) {
                         // Update game logic
                         System.out.println("Jogador " + (currentPlayer + 1) + " está jogando.");
                         player gamer = tabuleiro.getGamers()[currentPlayer];
@@ -538,35 +537,22 @@
                         if (!gamer.checkIfBroke()) {
                             diceUI(root, tabuleiro.getDie());
                         }
-                        if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(),
-                                tabuleiro.getSquaresQuantity())) {
+                        if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(), tabuleiro.getSquaresQuantity())) {
 
                             movePlayer(gamer, tabuleiro.getDie().checkTotalValue());
                             int stocks = tabuleiro.getBank().getOwner(gamer.getPosition());
                             stocks = tabuleiro.getGamers()[stocks].checkStocks();
-                            
+                            System.out.println("Stocks "+ stocks);
                             gamer.update(tabuleiro.getLocation(gamer.getPosition()), tabuleiro.getBank(),
-                                    tabuleiro.getSquaresQuantity(), stocks, tabuleiro.getGamers(),
-                                    monopoly.board.getPlayers(), gamer.getId());
+                                        tabuleiro.getSquaresQuantity(), stocks, tabuleiro.getGamers(),
+                                        monopoly.board.getPlayers(), gamer.getId());
 
                             movePlayer(gamer, gamer.getSpecialDistance());
                             gamer.zeraSpecialDistance();
 
                         }
-
                         // Handle game logic (bankruptcy, victory, etc.)
-                        if (!gamer.getBankruptcy() && !(tabuleiro.getLocation(gamer.getPosition()) instanceof special)) // se
-                                                                                                                        // o
-                                                                                                                        // gamer
-                                                                                                                        // nao
-                                                                                                                        // faliu
-                                                                                                                        // e
-                                                                                                                        // a
-                                                                                                                        // posicao
-                                                                                                                        // nao
-                                                                                                                        // e
-                                                                                                                        // especial
-                        {
+                        if (!gamer.getBankruptcy() && !(tabuleiro.getLocation(gamer.getPosition()) instanceof special)) {
                             squares land = tabuleiro.getLocation(gamer.getPosition()); // separa o terreno e modo
                                                                                     // capitalista (nao troca)
 
@@ -581,7 +567,6 @@
                             } else {
                                 // EU NAO SEI OQ FAZER MAIS!!!
                             }
-                            
                         }
                         if (currentRound >= maxRounds)
                             stop();
@@ -594,9 +579,7 @@
                                 currentPlayer = 0;
                                 currentRound++;
                             }
-
                         }
-
                         // Update time
                         lastUpdateTime[0] = currentTime;
                     } else if (tabuleiro.getGamers()[currentPlayer].getBankruptcy()) {
