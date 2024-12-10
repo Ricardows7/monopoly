@@ -296,33 +296,33 @@
         }
         
 
-        public void propertyUI(StackPane root, property prop, player player, bank comp, portfolio receiver, portfolio giver,
+        /*public void propertyUI(StackPane root, property prop, player player, bank comp, portfolio receiver, portfolio giver,
                 wallet owner, wallet buyer, int buyerId, squares place) {
-
+        
             Label propertyPriceLabel = new Label("Property Cost: $" + prop.getValue());
             propertyPriceLabel.setStyle("-fx-font-size: 16px;");
-
+        
             // Upgrade buttons
             Button[] buyButtons = new Button[4];
-
+        
             HBox buttonBox = new HBox(10);
             buttonBox.setAlignment(Pos.CENTER);
-
+        
             int state = prop.getState();
-
+        
             int upgradeCost = prop.getUpgradeValue();
             int valueCost = prop.getValue();
             int mortgageCost = prop.getMortgageValue();
-
+        
             buyButtons[0].setText("Pass turn!");
             buyButtons[1].setText("Buy land for: " + valueCost + "R$");
             buyButtons[2].setText("Improve property to " + state + " for : " + upgradeCost + "R$");
             buyButtons[3].setText(
                     "Mortgage this property now and receive: " + mortgageCost + "R$ and just pay after 5 rounds!");
-
+        
             buttonBox.getChildren().addAll(buyButtons);
             root.getChildren().add(buttonBox);
-
+        
             // Update button states based on property ownership
             if (comp.getOwner(prop.getPosition()) == player.getId()) { // Player owns the property
                 buyButtons[1].setDisable(true); // Disable "Buy land"
@@ -340,12 +340,12 @@
                 buyButtons[2].setOpacity(0.5);
                 buyButtons[3].setDisable(true); // Disable "Mortgage"
                 buyButtons[3].setOpacity(0.5);
-
+        
                 if (player.Check() < prop.getValue()) { // Check if player can afford the property
                     buyButtons[1].setDisable(true); // Disable "Buy land"
                 }
             }
-
+        
             // Event Handlers
             buyButtons[1].setOnAction(e -> {
                 if (comp.getOwner(prop.getPosition()) == 0) {
@@ -354,15 +354,97 @@
                     comp.sellProperties(receiver, giver, owner, buyer, buyerId, place, true);
                 }
             });
-
+        
             buyButtons[2].setOnAction(e -> prop.improve(buyer));
-
+        
             buyButtons[3].setOnAction(e -> prop.getMortgage(buyer));
-
+        
             buyButtons[0].setOnAction(e -> root.getChildren().remove(buttonBox)); // Update quit state when "Pass turn" is
                                                                                 // clicked
+        
+        }*/
+        
+        public void propertyUI(StackPane root, property prop, player player, bank comp, portfolio receiver, portfolio giver,
+        wallet owner, wallet buyer, int buyerId, squares place, Runnable onPassTurn) {
 
+    Label propertyPriceLabel = new Label("Property Cost: $" + prop.getValue());
+    propertyPriceLabel.setStyle("-fx-font-size: 16px;");
+
+    // Upgrade buttons
+    Button[] buyButtons = new Button[4];
+
+    for (int i = 0; i < buyButtons.length; i++) {
+        buyButtons[i] = new Button(); // Inicializa cada botão
+    }
+
+    HBox buttonBox = new HBox(10);
+    buttonBox.setAlignment(Pos.CENTER);
+
+    int state = prop.getState();
+
+    int upgradeCost = prop.getUpgradeValue();
+    int valueCost = prop.getValue();
+    int mortgageCost = prop.getMortgageValue();
+
+    buyButtons[0].setText("Pass turn!");
+    buyButtons[1].setText("Buy land for: " + valueCost + "R$");
+    buyButtons[2].setText("Improve property to " + state + " for : " + upgradeCost + "R$");
+    buyButtons[3].setText(
+            "Mortgage this property now and receive: " + mortgageCost + "R$ and just pay after 5 rounds!");
+
+    buttonBox.getChildren().addAll(buyButtons);
+    root.getChildren().add(buttonBox);
+
+    // Update button states based on property ownership
+    if (comp.getOwner(prop.getPosition()) == player.getId()) { // Player owns the property
+        buyButtons[1].setDisable(true); // Disable "Buy land"
+        buyButtons[1].setOpacity(0.5);
+        if (!prop.isMortgaged()) {
+            buyButtons[3].setDisable(true); // Disable "Mortgage"
+            buyButtons[3].setOpacity(0.5);
         }
+        if (!player.canAfford(upgradeCost) || !prop.isUpgradeValid()) { // Check if upgrade is valid
+            buyButtons[2].setDisable(true); // Disable "Improve property"
+            buyButtons[2].setOpacity(0.5);
+        }
+    } else { // Player does not own the property
+        buyButtons[2].setDisable(true); // Disable "Improve property"
+        buyButtons[2].setOpacity(0.5);
+        buyButtons[3].setDisable(true); // Disable "Mortgage"
+        buyButtons[3].setOpacity(0.5);
+
+        if (player.Check() < prop.getValue()) { // Check if player can afford the property
+            buyButtons[1].setDisable(true); // Disable "Buy land"
+        }
+    }
+
+    // Event Handlers
+    buyButtons[1].setOnAction(e -> {
+        if (comp.getOwner(prop.getPosition()) == 0) {
+            comp.sellProperties(receiver, buyer, player.getId(), place, true);
+        } else {
+            comp.sellProperties(receiver, giver, owner, buyer, buyerId, place, true);
+        }
+        root.getChildren().remove(buttonBox); // Remove os botões
+    });
+
+    buyButtons[2].setOnAction(e -> {
+        prop.improve(buyer);
+        root.getChildren().remove(buttonBox); // Remove os botões
+    });
+
+    buyButtons[3].setOnAction(e -> {
+        prop.getMortgage(buyer);
+        root.getChildren().remove(buttonBox); // Remove os botões
+    });
+
+    buyButtons[0].setOnAction(e -> {
+        root.getChildren().remove(buttonBox); // Remove os botões
+        if (onPassTurn != null) {
+            onPassTurn.run(); // Callback só executa no botão "Pass turn"
+        }
+    });
+}
 
         public void stocksUI(StackPane root, stocks stcks, bank comp, player player, portfolio receiver, portfolio giver,
                 wallet owner, wallet buyer, squares place) {
@@ -690,7 +772,8 @@
 
                             if (land instanceof property) {
                                 propertyUI(getRoot(), (property) land, gamer, tabuleiro.getBank(), gamer.getPortfolio(),
-                                        rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), gamer.getId(), land);
+                                        rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), gamer.getId(), land, () -> {
+                                        });
                             } else if (land instanceof stocks) {
                                 stocksUI(getRoot(), (stocks) land, tabuleiro.getBank(), gamer, gamer.getPortfolio(),
                                         rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), land);
