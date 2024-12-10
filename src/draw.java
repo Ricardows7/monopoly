@@ -885,6 +885,7 @@ public class draw extends Application {
                 if (!tabuleiro.getGamers()[currentPlayer].getBankruptcy()) {
                     player gamer = tabuleiro.getGamers()[currentPlayer];
                     if (!gamer.checkIfBroke()) {
+                        squares land = tabuleiro.getLocation(gamer.getPosition());
                         switch (event.getCode()) {
                             case ENTER: // Jogador rola o dado
                                 if (!hasPlayed) {
@@ -948,7 +949,7 @@ public class draw extends Application {
     
                             case DIGIT2: // Hipotecar
                                 if (hasPlayed) {
-                                    if (gamer.mortgageProperty()) {
+                                    if ((land instance of property) && gamer.mortgage((property)land)) {
                                         statusLabel.setText("Propriedade hipotecada com sucesso.");
                                     } else {
                                         statusLabel.setText("Falha ao hipotecar a propriedade.");
@@ -960,7 +961,22 @@ public class draw extends Application {
     
                             case DIGIT3: // Comprar
                                 if (hasPlayed) {
-                                    if (gamer.buyProperty(tabuleiro.getBank())) {
+                                    int owner = tabuleiro.getBank().getOwner(maxRounds);
+                                    boolean foi = false;
+                                    if (owner == gamer.getId())
+                                    {
+                                        statusLabel.setText("Você já é dono dessa propriedade!");
+                                        break;
+                                    }
+                                    if (tabuleiro.getBank().getOwner(gamer.getPosition()) != 0)
+                                    {
+                                        player rival = monopoly.board.getPlayer(owner);
+                                        foi = tabuleiro.getBank().sellProperties(gamer.getPortfolio(), rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), gamer.getId(), land, true);
+                                    }
+                                    else
+                                        foi = tabuleiro.getBank().sellProperties(gamer.getPortfolio(), gamer.getWallet(), gamer.getId(), land, true);
+
+                                    if (foi) {
                                         statusLabel.setText("Propriedade comprada com sucesso.");
                                     } else {
                                         statusLabel.setText("Falha ao comprar a propriedade.");
