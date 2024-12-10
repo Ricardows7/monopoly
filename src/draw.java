@@ -279,7 +279,7 @@
                 pause.play();
             });
         }*/
-
+        //DICE QUE TAVA RELATIVAMENTE OK 
         public void diceUI(StackPane root, dice die, Runnable onDiceRolled) {
             Button rollButton = new Button("Roll dice");
             VBox button = new VBox();
@@ -309,7 +309,7 @@
                 root.getChildren().addAll(diceBox);
         
                 // Aguarda 4 segundos e remove os dados, depois chama o callback
-                PauseTransition pause = new PauseTransition(Duration.seconds(4));
+                PauseTransition pause = new PauseTransition(Duration.seconds(3));
                 pause.setOnFinished(event -> {
                     root.getChildren().remove(diceBox);
                     if (onDiceRolled != null) {
@@ -319,9 +319,27 @@
                 pause.play();
             });
         }
+        /* 
+        public void diceUI(StackPane root, dice die, Runnable onRollComplete) {
+            Button rollButton = new Button("Roll dice");
+            VBox button = new VBox();
         
+            button.setAlignment(Pos.CENTER);
+            button.getChildren().add(rollButton);
+            button.setPrefSize(200, 150);
+            root.getChildren().addAll(button);
+        
+            rollButton.setOnAction(e -> {
+                die.throwDie();
+                root.getChildren().remove(button); // Remove o botão após clicar
+                if (onRollComplete != null) {
+                    onRollComplete.run(); // Libera o fluxo quando o dado for jogado
+                }
+            });
+        }        
+        */
 
-        /*public void propertyUI(StackPane root, property prop, player player, bank comp, portfolio receiver, portfolio giver,
+        public void propertyUI(StackPane root, property prop, player player, bank comp, portfolio receiver, portfolio giver,
                 wallet owner, wallet buyer, int buyerId, squares place) {
         
             Label propertyPriceLabel = new Label("Property Cost: $" + prop.getValue());
@@ -387,90 +405,134 @@
             buyButtons[0].setOnAction(e -> root.getChildren().remove(buttonBox)); // Update quit state when "Pass turn" is
                                                                                 // clicked
         
-        }*/
+        }
         
+        /*public void propertyUI(StackPane root, property prop, player player, bank comp, portfolio receiver, portfolio giver,
+        wallet owner, wallet buyer, int buyerId, squares place, Runnable onPassTurn) {
+        
+        Label propertyPriceLabel = new Label("Property Cost: $" + prop.getValue());
+        propertyPriceLabel.setStyle("-fx-font-size: 16px;");
+        
+        // Upgrade buttons
+        Button[] buyButtons = new Button[4];
+        
+        for (int i = 0; i < buyButtons.length; i++) {
+        buyButtons[i] = new Button(); // Inicializa cada botão
+        }
+        
+        HBox buttonBox = new HBox(10);
+        buttonBox.setAlignment(Pos.CENTER);
+        
+        int state = prop.getState();
+        
+        int upgradeCost = prop.getUpgradeValue();
+        int valueCost = prop.getValue();
+        int mortgageCost = prop.getMortgageValue();
+        
+        buyButtons[0].setText("Pass turn!");
+        buyButtons[1].setText("Buy land for: " + valueCost + "R$");
+        buyButtons[2].setText("Improve property to " + state + " for : " + upgradeCost + "R$");
+        buyButtons[3].setText(
+            "Mortgage this property now and receive: " + mortgageCost + "R$ and just pay after 5 rounds!");
+        
+        buttonBox.getChildren().addAll(buyButtons);
+        root.getChildren().add(buttonBox);
+        
+        // Update button states based on property ownership
+        if (comp.getOwner(prop.getPosition()) == player.getId()) { // Player owns the property
+        buyButtons[1].setDisable(true); // Disable "Buy land"
+        buyButtons[1].setOpacity(0.5);
+        if (!prop.isMortgaged()) {
+            buyButtons[3].setDisable(true); // Disable "Mortgage"
+            buyButtons[3].setOpacity(0.5);
+        }
+        if (!player.canAfford(upgradeCost) || !prop.isUpgradeValid()) { // Check if upgrade is valid
+            buyButtons[2].setDisable(true); // Disable "Improve property"
+            buyButtons[2].setOpacity(0.5);
+        }
+        } else { // Player does not own the property
+        buyButtons[2].setDisable(true); // Disable "Improve property"
+        buyButtons[2].setOpacity(0.5);
+        buyButtons[3].setDisable(true); // Disable "Mortgage"
+        buyButtons[3].setOpacity(0.5);
+        
+        if (player.Check() < prop.getValue()) { // Check if player can afford the property
+            buyButtons[1].setDisable(true); // Disable "Buy land"
+        }
+        }
+        
+        // Event Handlers
+        buyButtons[1].setOnAction(e -> {
+        if (comp.getOwner(prop.getPosition()) == 0) {
+            comp.sellProperties(receiver, buyer, player.getId(), place, true);
+        } else {
+            comp.sellProperties(receiver, giver, owner, buyer, buyerId, place, true);
+        }
+        //root.getChildren().remove(buttonBox); // Remove os botões
+        });
+        
+        buyButtons[2].setOnAction(e -> {
+        prop.improve(buyer);
+        //root.getChildren().remove(buttonBox); // Remove os botões
+        });
+        
+        buyButtons[3].setOnAction(e -> {
+        prop.getMortgage(buyer);
+        //root.getChildren().remove(buttonBox); // Remove os botões
+        });
+        
+        buyButtons[0].setOnAction(e -> {
+        //root.getChildren().remove(buttonBox); // Remove os botões
+        if (onPassTurn != null) {
+            onPassTurn.run(); // Callback só executa no botão "Pass turn"
+        }
+        });
+        }
+/* 
         public void propertyUI(StackPane root, property prop, player player, bank comp, portfolio receiver, portfolio giver,
         wallet owner, wallet buyer, int buyerId, squares place, Runnable onPassTurn) {
 
-            Label propertyPriceLabel = new Label("Property Cost: $" + prop.getValue());
-            propertyPriceLabel.setStyle("-fx-font-size: 16px;");
+    HBox buttonBox = new HBox(10);
+    buttonBox.setAlignment(Pos.CENTER);
 
-            // Upgrade buttons
-            Button[] buyButtons = new Button[4];
+    Button passButton = new Button("Pass turn!");
+    Button buyButton = new Button("Buy land");
+    Button improveButton = new Button("Improve property");
+    Button mortgageButton = new Button("Mortgage property");
 
-            for (int i = 0; i < buyButtons.length; i++) {
-                buyButtons[i] = new Button(); // Inicializa cada botão
-            }
+    buttonBox.getChildren().addAll(passButton, buyButton, improveButton, mortgageButton);
+    root.getChildren().add(buttonBox);
 
-            HBox buttonBox = new HBox(10);
-            buttonBox.setAlignment(Pos.CENTER);
+    // Configuração dos botões
+    buyButton.setDisable(!player.canAfford(prop.getValue())); // Exemplo de lógica de habilitação
+    improveButton.setDisable(!prop.isUpgradeValid());
+    mortgageButton.setDisable(prop.isMortgaged());
 
-            int state = prop.getState();
-
-            int upgradeCost = prop.getUpgradeValue();
-            int valueCost = prop.getValue();
-            int mortgageCost = prop.getMortgageValue();
-
-            buyButtons[0].setText("Pass turn!");
-            buyButtons[1].setText("Buy land for: " + valueCost + "R$");
-            buyButtons[2].setText("Improve property to " + state + " for : " + upgradeCost + "R$");
-            buyButtons[3].setText(
-                    "Mortgage this property now and receive: " + mortgageCost + "R$ and just pay after 5 rounds!");
-
-            buttonBox.getChildren().addAll(buyButtons);
-            root.getChildren().add(buttonBox);
-
-            // Update button states based on property ownership
-            if (comp.getOwner(prop.getPosition()) == player.getId()) { // Player owns the property
-                buyButtons[1].setDisable(true); // Disable "Buy land"
-                buyButtons[1].setOpacity(0.5);
-                if (!prop.isMortgaged()) {
-                    buyButtons[3].setDisable(true); // Disable "Mortgage"
-                    buyButtons[3].setOpacity(0.5);
-                }
-                if (!player.canAfford(upgradeCost) || !prop.isUpgradeValid()) { // Check if upgrade is valid
-                    buyButtons[2].setDisable(true); // Disable "Improve property"
-                    buyButtons[2].setOpacity(0.5);
-                }
-            } else { // Player does not own the property
-                buyButtons[2].setDisable(true); // Disable "Improve property"
-                buyButtons[2].setOpacity(0.5);
-                buyButtons[3].setDisable(true); // Disable "Mortgage"
-                buyButtons[3].setOpacity(0.5);
-
-                if (player.Check() < prop.getValue()) { // Check if player can afford the property
-                    buyButtons[1].setDisable(true); // Disable "Buy land"
-                }
-            }
-
-            // Event Handlers
-            buyButtons[1].setOnAction(e -> {
-                if (comp.getOwner(prop.getPosition()) == 0) {
-                    comp.sellProperties(receiver, buyer, player.getId(), place, true);
-                } else {
-                    comp.sellProperties(receiver, giver, owner, buyer, buyerId, place, true);
-                }
-                //root.getChildren().remove(buttonBox); // Remove os botões
-            });
-
-            buyButtons[2].setOnAction(e -> {
-                prop.improve(buyer);
-                //root.getChildren().remove(buttonBox); // Remove os botões
-            });
-
-            buyButtons[3].setOnAction(e -> {
-                prop.getMortgage(buyer);
-                //root.getChildren().remove(buttonBox); // Remove os botões
-            });
-
-            buyButtons[0].setOnAction(e -> {
-                //root.getChildren().remove(buttonBox); // Remove os botões
-                if (onPassTurn != null) {
-                    onPassTurn.run(); // Callback só executa no botão "Pass turn"
-                }
-            });
+    // Ações dos botões
+    passButton.setOnAction(e -> {
+        root.getChildren().remove(buttonBox);
+        if (onPassTurn != null) {
+            onPassTurn.run(); // Libera o fluxo para o próximo jogador
         }
+    });
 
+    buyButton.setOnAction(e -> {
+        comp.sellProperties(receiver, buyer, player.getId(), place, true);
+        root.getChildren().remove(buttonBox);
+    });
+
+    improveButton.setOnAction(e -> {
+        prop.improve(buyer);
+        root.getChildren().remove(buttonBox);
+    });
+
+    mortgageButton.setOnAction(e -> {
+        prop.getMortgage(buyer);
+        root.getChildren().remove(buttonBox);
+    });
+}
+
+*/
         public void stocksUI(StackPane root, stocks stcks, bank comp, player player, portfolio receiver, portfolio giver,
                 wallet owner, wallet buyer, squares place) {
 
@@ -796,8 +858,7 @@
 
                                 if (land instanceof property) {
                                     propertyUI(getRoot(), (property) land, gamer, tabuleiro.getBank(), gamer.getPortfolio(),
-                                        rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), gamer.getId(), land, () -> {
-                                    });
+                                        rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), gamer.getId(), land);
                                 } else if (land instanceof stocks) {
                                     stocksUI(getRoot(), (stocks) land, tabuleiro.getBank(), gamer, gamer.getPortfolio(),
                                         rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), land);
