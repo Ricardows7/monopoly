@@ -444,6 +444,9 @@
        // private int currentPlayer = 0;
        // public int currentRound = 0;
 
+        private int currentPlayer = 0;
+        public int currentRound = 0;
+
        
 
         /*
@@ -524,8 +527,8 @@
         public void startGameLoop(int totalPlayers, monopoly.board tabuleiro) {
             // Track current player using an array for mutability
             save saveGame = new save();
-            int currentPlayer = 0;
-            int currentRound = 0;
+            //int currentPlayer = 0;
+            //int currentRound = 0;
             int maxRounds = 30;
             double FPS = 60;
             double drawInterval = 1_000_000_000 / FPS; // Frame interval in nanoseconds
