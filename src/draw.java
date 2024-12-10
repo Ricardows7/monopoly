@@ -223,7 +223,7 @@
 
             root.getChildren().add(textBoxPane);
         }
-
+        /* 
         public void diceUI(StackPane root, dice die) {
             Button rollButton = new Button("Roll dice");
             VBox button = new VBox();
@@ -253,7 +253,48 @@
                 pause.setOnFinished(event -> root.getChildren().remove(diceBox));
                 pause.play();
             });
+        }*/
+
+        public void diceUI(StackPane root, dice die, Runnable onDiceRolled) {
+            Button rollButton = new Button("Roll dice");
+            VBox button = new VBox();
+        
+            button.setAlignment(Pos.CENTER);
+            button.getChildren().add(rollButton);
+            button.setPrefSize(200, 150);
+            root.getChildren().addAll(button);
+        
+            rollButton.setOnAction(e -> {
+                die.throwDie(); // Lança os dados
+                root.getChildren().remove(button);
+        
+                // Exibe os valores dos dados
+                String base = "dice_";
+                ImageView dice1 = new ImageView(imageManager.getImage(base + String.valueOf(die.checkValue1())));
+                ImageView dice2 = new ImageView(imageManager.getImage(base + String.valueOf(die.checkValue2())));
+                dice1.setPreserveRatio(true);
+                dice2.setPreserveRatio(true);
+                dice1.setFitWidth(75);
+                dice2.setFitWidth(75);
+        
+                HBox diceBox = new HBox(10); // Layout horizontal para exibir os dados
+                diceBox.getChildren().addAll(dice1, dice2);
+                diceBox.setAlignment(Pos.CENTER);
+        
+                root.getChildren().addAll(diceBox);
+        
+                // Aguarda 4 segundos e remove os dados, depois chama o callback
+                PauseTransition pause = new PauseTransition(Duration.seconds(4));
+                pause.setOnFinished(event -> {
+                    root.getChildren().remove(diceBox);
+                    if (onDiceRolled != null) {
+                        onDiceRolled.run(); // Executa a próxima lógica
+                    }
+                });
+                pause.play();
+            });
         }
+        
 
         public void propertyUI(StackPane root, property prop, player player, bank comp, portfolio receiver, portfolio giver,
                 wallet owner, wallet buyer, int buyerId, squares place) {
@@ -622,22 +663,24 @@
                     player gamer = tabuleiro.getGamers()[currentPlayer];
                         
                     if (!gamer.checkIfBroke()) {
-                        diceUI(root, tabuleiro.getDie());
-                        if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(), tabuleiro.getSquaresQuantity())) {
+                        diceUI(root, tabuleiro.getDie(), () -> {
+                            if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(), tabuleiro.getSquaresQuantity())) {
 
-                            movePlayer(gamer, tabuleiro.getDie().checkTotalValue());
-                            int stocks = tabuleiro.getBank().getOwner(gamer.getPosition());
-                            if (stocks != -1)
-                                stocks = tabuleiro.getGamers()[stocks].checkStocks();
-                            
-                            gamer.update(tabuleiro.getLocation(gamer.getPosition()), tabuleiro.getBank(),
-                                        tabuleiro.getSquaresQuantity(), stocks, tabuleiro.getGamers(),
-                                        monopoly.board.getPlayers(), gamer.getId());
-
-                            movePlayer(gamer, gamer.getSpecialDistance());
-                            gamer.zeraSpecialDistance();
-
-                        }
+                                movePlayer(gamer, tabuleiro.getDie().checkTotalValue());
+                                int stocks = tabuleiro.getBank().getOwner(gamer.getPosition());
+                                if (stocks != -1)
+                                    stocks = tabuleiro.getGamers()[stocks].checkStocks();
+                                
+                                gamer.update(tabuleiro.getLocation(gamer.getPosition()), tabuleiro.getBank(),
+                                            tabuleiro.getSquaresQuantity(), stocks, tabuleiro.getGamers(),
+                                            monopoly.board.getPlayers(), gamer.getId());
+    
+                                movePlayer(gamer, gamer.getSpecialDistance());
+                                gamer.zeraSpecialDistance();
+    
+                            }
+                        });
+                        
                         // Handle game logic (bankruptcy, victory, etc.)
                         if (!gamer.getBankruptcy() && !(tabuleiro.getLocation(gamer.getPosition()) instanceof special)) {
                             squares land = tabuleiro.getLocation(gamer.getPosition()); // separa o terreno e modo
@@ -655,7 +698,7 @@
                                 // EU NAO SEI OQ FAZER MAIS!!!
                             }
                         }
-                        if (currentRound >= maxRounds)
+                        if (currentRound >= maxRounds){}
                             //stop();
                         else if (gamer.checkVictory(tabuleiro.getBank(), tabuleiro.getStocksQuantity()) == 1) {
                             System.out.println("Jogador " + (currentPlayer + 1) + " venceu o jogo!");
