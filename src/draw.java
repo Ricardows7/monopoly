@@ -250,41 +250,6 @@ public class draw extends Application {
         root.getChildren().add(textBoxPane);
     }
 
-    /*
-     * public void diceUI(StackPane root, dice die) {
-     * Button rollButton = new Button("Roll dice");
-     * VBox button = new VBox();
-     * 
-     * button.setAlignment(Pos.CENTER);
-     * button.getChildren().add(rollButton);
-     * button.setPrefSize(200, 150);
-     * root.getChildren().addAll(button);
-     * rollButton.setOnAction(e -> {
-     * die.throwDie();
-     * root.getChildren().remove(button);
-     * 
-     * String base = "dice_";
-     * ImageView dice1 = new ImageView(imageManager.getImage(base +
-     * String.valueOf(die.checkValue1())));
-     * ImageView dice2 = new ImageView(imageManager.getImage(base +
-     * String.valueOf(die.checkValue2())));
-     * dice1.setPreserveRatio(true);
-     * dice2.setPreserveRatio(true);
-     * dice1.setFitWidth(75);
-     * dice2.setFitWidth(75);
-     * 
-     * HBox diceBox = new HBox(10); // 10 de spacing
-     * diceBox.getChildren().addAll(dice1, dice2);
-     * diceBox.setAlignment(Pos.CENTER);
-     * 
-     * root.getChildren().addAll(diceBox);
-     * PauseTransition pause = new PauseTransition(Duration.seconds(4));
-     * pause.setOnFinished(event -> root.getChildren().remove(diceBox));
-     * pause.play();
-     * });
-     * }
-     */
-    // DICE QUE TAVA RELATIVAMENTE OK
     public void diceUI(StackPane root, dice die, Runnable onDiceRolled) {
         Button rollButton = new Button("Roll dice");
         VBox button = new VBox();
@@ -324,46 +289,7 @@ public class draw extends Application {
             pause.play();
         });
     }
-    /*
-     * public void diceUI(StackPane root, dice die, Runnable onTurnFinished) {
-     * Button rollButton = new Button("Roll dice");
-     * 
-     * VBox buttonBox = new VBox();
-     * buttonBox.setAlignment(Pos.CENTER);
-     * buttonBox.getChildren().add(rollButton);
-     * root.getChildren().add(buttonBox);
-     * 
-     * rollButton.setOnAction(e -> {
-     * die.throwDie();
-     * 
-     * // Atualizar o que precisa na interface
-     * root.getChildren().remove(buttonBox);
-     * 
-     * // Lógica para mostrar os dados rolados
-     * String base = "dice_";
-     * ImageView dice1 = new ImageView(imageManager.getImage(base +
-     * die.checkValue1()));
-     * ImageView dice2 = new ImageView(imageManager.getImage(base +
-     * die.checkValue2()));
-     * dice1.setFitWidth(75);
-     * dice2.setFitWidth(75);
-     * 
-     * HBox diceBox = new HBox(10);
-     * diceBox.getChildren().addAll(dice1, dice2);
-     * diceBox.setAlignment(Pos.CENTER);
-     * root.getChildren().add(diceBox);
-     * 
-     * // Notificar que o jogador fez sua jogada
-     * onTurnFinished.run(); // Liberar o fluxo para o próximo jogador
-     * 
-     * // Remover os dados após alguns segundos
-     * PauseTransition pause = new PauseTransition(Duration.seconds(4));
-     * pause.setOnFinished(event -> root.getChildren().remove(diceBox));
-     * pause.play();
-     * });
-     * }
-     */
-
+    
     public void propertyUI(StackPane root, property prop, player player, bank comp, portfolio receiver, portfolio giver,
             wallet owner, wallet buyer, int buyerId, squares place) {
 
@@ -432,144 +358,6 @@ public class draw extends Application {
 
     }
 
-    /*
-     * public void propertyUI(StackPane root, property prop, player player, bank
-     * comp, portfolio receiver, portfolio giver,
-     * wallet owner, wallet buyer, int buyerId, squares place, Runnable onPassTurn)
-     * {
-     * 
-     * Label propertyPriceLabel = new Label("Property Cost: $" + prop.getValue());
-     * propertyPriceLabel.setStyle("-fx-font-size: 16px;");
-     * 
-     * // Upgrade buttons
-     * Button[] buyButtons = new Button[4];
-     * 
-     * for (int i = 0; i < buyButtons.length; i++) {
-     * buyButtons[i] = new Button(); // Inicializa cada botão
-     * }
-     * 
-     * HBox buttonBox = new HBox(10);
-     * buttonBox.setAlignment(Pos.CENTER);
-     * 
-     * int state = prop.getState();
-     * 
-     * int upgradeCost = prop.getUpgradeValue();
-     * int valueCost = prop.getValue();
-     * int mortgageCost = prop.getMortgageValue();
-     * 
-     * buyButtons[0].setText("Pass turn!");
-     * buyButtons[1].setText("Buy land for: " + valueCost + "R$");
-     * buyButtons[2].setText("Improve property to " + state + " for : " +
-     * upgradeCost + "R$");
-     * buyButtons[3].setText(
-     * "Mortgage this property now and receive: " + mortgageCost +
-     * "R$ and just pay after 5 rounds!");
-     * 
-     * buttonBox.getChildren().addAll(buyButtons);
-     * root.getChildren().add(buttonBox);
-     * 
-     * // Update button states based on property ownership
-     * if (comp.getOwner(prop.getPosition()) == player.getId()) { // Player owns the
-     * property
-     * buyButtons[1].setDisable(true); // Disable "Buy land"
-     * buyButtons[1].setOpacity(0.5);
-     * if (!prop.isMortgaged()) {
-     * buyButtons[3].setDisable(true); // Disable "Mortgage"
-     * buyButtons[3].setOpacity(0.5);
-     * }
-     * if (!player.canAfford(upgradeCost) || !prop.isUpgradeValid()) { // Check if
-     * upgrade is valid
-     * buyButtons[2].setDisable(true); // Disable "Improve property"
-     * buyButtons[2].setOpacity(0.5);
-     * }
-     * } else { // Player does not own the property
-     * buyButtons[2].setDisable(true); // Disable "Improve property"
-     * buyButtons[2].setOpacity(0.5);
-     * buyButtons[3].setDisable(true); // Disable "Mortgage"
-     * buyButtons[3].setOpacity(0.5);
-     * 
-     * if (player.Check() < prop.getValue()) { // Check if player can afford the
-     * property
-     * buyButtons[1].setDisable(true); // Disable "Buy land"
-     * }
-     * }
-     * 
-     * // Event Handlers
-     * buyButtons[1].setOnAction(e -> {
-     * if (comp.getOwner(prop.getPosition()) == 0) {
-     * comp.sellProperties(receiver, buyer, player.getId(), place, true);
-     * } else {
-     * comp.sellProperties(receiver, giver, owner, buyer, buyerId, place, true);
-     * }
-     * //root.getChildren().remove(buttonBox); // Remove os botões
-     * });
-     * 
-     * buyButtons[2].setOnAction(e -> {
-     * prop.improve(buyer);
-     * //root.getChildren().remove(buttonBox); // Remove os botões
-     * });
-     * 
-     * buyButtons[3].setOnAction(e -> {
-     * prop.getMortgage(buyer);
-     * //root.getChildren().remove(buttonBox); // Remove os botões
-     * });
-     * 
-     * buyButtons[0].setOnAction(e -> {
-     * //root.getChildren().remove(buttonBox); // Remove os botões
-     * if (onPassTurn != null) {
-     * onPassTurn.run(); // Callback só executa no botão "Pass turn"
-     * }
-     * });
-     * }
-     * /*
-     * public void propertyUI(StackPane root, property prop, player player, bank
-     * comp, portfolio receiver, portfolio giver,
-     * wallet owner, wallet buyer, int buyerId, squares place, Runnable onPassTurn)
-     * {
-     * 
-     * HBox buttonBox = new HBox(10);
-     * buttonBox.setAlignment(Pos.CENTER);
-     * 
-     * Button passButton = new Button("Pass turn!");
-     * Button buyButton = new Button("Buy land");
-     * Button improveButton = new Button("Improve property");
-     * Button mortgageButton = new Button("Mortgage property");
-     * 
-     * buttonBox.getChildren().addAll(passButton, buyButton, improveButton,
-     * mortgageButton);
-     * root.getChildren().add(buttonBox);
-     * 
-     * // Configuração dos botões
-     * buyButton.setDisable(!player.canAfford(prop.getValue())); // Exemplo de
-     * lógica de habilitação
-     * improveButton.setDisable(!prop.isUpgradeValid());
-     * mortgageButton.setDisable(prop.isMortgaged());
-     * 
-     * // Ações dos botões
-     * passButton.setOnAction(e -> {
-     * root.getChildren().remove(buttonBox);
-     * if (onPassTurn != null) {
-     * onPassTurn.run(); // Libera o fluxo para o próximo jogador
-     * }
-     * });
-     * 
-     * buyButton.setOnAction(e -> {
-     * comp.sellProperties(receiver, buyer, player.getId(), place, true);
-     * root.getChildren().remove(buttonBox);
-     * });
-     * 
-     * improveButton.setOnAction(e -> {
-     * prop.improve(buyer);
-     * root.getChildren().remove(buttonBox);
-     * });
-     * 
-     * mortgageButton.setOnAction(e -> {
-     * prop.getMortgage(buyer);
-     * root.getChildren().remove(buttonBox);
-     * });
-     * }
-     * 
-     */
     public void stocksUI(StackPane root, stocks stcks, bank comp, player player, portfolio receiver, portfolio giver,
             wallet owner, wallet buyer, squares place) {
 
@@ -689,188 +477,13 @@ public class draw extends Application {
         }
     }
 
-    // private int currentPlayer = 0;
-    // public int currentRound = 0;
 
     private int currentPlayer = 0;
     public int currentRound = 0;
 
-    /*
-     * public static void main(String[] args) {
-     * 
-     * Application.launch(Draw.class, args);
-     * int playerAmount = draw.menu();
-     * if (playerAmount == 0) {
-     * System.out.println("Jogo encerrado.");
-     * return;
-     * } else if (playerAmount > 0) {
-     * initializer start = new initializer();
-     * monopoly.board tabuleiro = start.startBoard(playerAmount, 40);
-     * startGameLoop(playerAmount, tabuleiro);
-     * }
-     * }
-     * 
-     * @Override
-     * public void start(Stage primaryStage) {
-     * // Configurar a janela principal do JavaFX
-     * VBox layout = new VBox();
-     * 
-     * Scene scene = new Scene(layout, 300, 200);
-     * primaryStage.setScene(scene);
-     * primaryStage.setTitle("Jogo");
-     * primaryStage.show();
-     * 
-     * //initializer();
-     * monopoly.board tabuleiro = new monopoly.board(playerAmount); //TEM QUE
-     * INICIALIZAR O TABULEIRO COM TUDO PRONTO AQUI E MANDAR PRO LOOP!!!
-     * property prop = new property(0, 0);
-     * prop.value[0] = 1000;
-     * prop.houses[0] = 1500;
-     * prop.rent[0] = 500;
-     * tabuleiro.map.addProp(prop);
-     * startGameLoop(playerAmount, tabuleiro, scene, primaryStage);
-     * };
-     */
-
-    /*
-     * 
-     * private void pauseMenu(AnimationTimer gameTimer) {
-     * // Pause the game timer
-     * gameTimer.stop();
-     * 
-     * // Create a new Stage for the pause menu
-     * Stage pauseStage = new Stage();
-     * pauseStage.initOwner(primaryStage); // Set the owner of the pause menu
-     * pauseStage.setTitle("Pause Menu");
-     * 
-     * // Create buttons for "Continue" and "Quit"
-     * Button continueButton = new Button("Continue");
-     * Button quitButton = new Button("Quit");
-     * 
-     * // Layout for the pause menu
-     * VBox layout = new VBox(10);
-     * layout.setStyle("-fx-padding: 10; -fx-alignment: center;");
-     * layout.getChildren().addAll(continueButton, quitButton);
-     * 
-     * Scene pauseScene = new Scene(layout, 200, 150);
-     * pauseStage.setScene(pauseScene);
-     * 
-     * // Set button actions
-     * continueButton.setOnAction(e -> {
-     * pauseStage.close(); // Close the pause menu
-     * gameTimer.start(); // Resume the game
-     * });
-     * 
-     * quitButton.setOnAction(e -> {
-     * pauseStage.close(); // Close the pause menu
-     * primaryStage.close(); // Close the main game window
-     * });
-     * 
-     * // Show the pause menu
-     * pauseStage.showAndWait(); // Blocks interaction with the main game window
-     * }
-     */
-    /*
-     * public void startGameLoop(int totalPlayers, monopoly.board tabuleiro) {
-     * // Track current player using an array for mutability
-     * save saveGame = new save();
-     * //int currentPlayer = 0;
-     * //int currentRound = 0;
-     * int maxRounds = 30;
-     * double FPS = 60;
-     * double drawInterval = 1_000_000_000 / FPS; // Frame interval in nanoseconds
-     * long[] lastUpdateTime = { System.nanoTime() }; // Store last update time
-     * 
-     * AnimationTimer gameTimer = new AnimationTimer(){
-     * 
-     * @Override
-     * public void handle(long currentTime) {
-     * if ((currentTime - lastUpdateTime[0] >= drawInterval) &&
-     * (!tabuleiro.getGamers()[currentPlayer].getBankruptcy())) {
-     * // Update game logic
-     * System.out.println("Jogador " + (currentPlayer + 1) + " está jogando.");
-     * player gamer = tabuleiro.getGamers()[currentPlayer];
-     * 
-     * if (!gamer.checkIfBroke()) {
-     * diceUI(root, tabuleiro.getDie());
-     * if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(),
-     * tabuleiro.getSquaresQuantity())) {
-     * 
-     * movePlayer(gamer, tabuleiro.getDie().checkTotalValue());
-     * int stocks = tabuleiro.getBank().getOwner(gamer.getPosition());
-     * if (stocks != -1)
-     * stocks = tabuleiro.getGamers()[stocks].checkStocks();
-     * 
-     * gamer.update(tabuleiro.getLocation(gamer.getPosition()), tabuleiro.getBank(),
-     * tabuleiro.getSquaresQuantity(), stocks, tabuleiro.getGamers(),
-     * monopoly.board.getPlayers(), gamer.getId());
-     * 
-     * movePlayer(gamer, gamer.getSpecialDistance());
-     * gamer.zeraSpecialDistance();
-     * 
-     * }
-     * // Handle game logic (bankruptcy, victory, etc.)
-     * if (!gamer.getBankruptcy() && !(tabuleiro.getLocation(gamer.getPosition())
-     * instanceof special)) {
-     * squares land = tabuleiro.getLocation(gamer.getPosition()); // separa o
-     * terreno e modo
-     * // capitalista (nao troca)
-     * 
-     * player rival =
-     * monopoly.board.getPlayer(tabuleiro.getBank().getOwner(gamer.getPosition()));
-     * 
-     * if (land instanceof property) {
-     * propertyUI(getRoot(), (property) land, gamer, tabuleiro.getBank(),
-     * gamer.getPortfolio(),
-     * rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), gamer.getId(),
-     * land);
-     * } else if (land instanceof stocks) {
-     * stocksUI(getRoot(), (stocks) land, tabuleiro.getBank(), gamer,
-     * gamer.getPortfolio(),
-     * rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), land);
-     * } else {
-     * // EU NAO SEI OQ FAZER MAIS!!!
-     * }
-     * }
-     * if (currentRound >= maxRounds)
-     * stop();
-     * else if (gamer.checkVictory(tabuleiro.getBank(),
-     * tabuleiro.getStocksQuantity()) == 1) {
-     * System.out.println("Jogador " + (currentPlayer + 1) + " venceu o jogo!");
-     * stop(); // Stop the game loop
-     * } else {
-     * saveGame.saveGame(tabuleiro.getGamers(),monopoly.board.getPlayers());
-     * currentPlayer++; // Move to next player
-     * if (currentPlayer >= monopoly.board.getPlayers()) {
-     * currentPlayer = 0;
-     * currentRound++;
-     * }
-     * }
-     * }
-     * // Update time
-     * lastUpdateTime[0] = currentTime;
-     * } else if (tabuleiro.getGamers()[currentPlayer].getBankruptcy()) {
-     * saveGame.saveGame(tabuleiro.getGamers(),monopoly.board.getPlayers());
-     * currentPlayer++; // Move to next player
-     * if (currentPlayer >= monopoly.board.getPlayers()) {
-     * currentPlayer = 0;
-     * currentRound++;
-     * }
-     * }
-     * }
-     * };
-     * gameTimer.start();
-     * }
-     */
     public void startGameLoop(int totalPlayers, monopoly.board tabuleiro) {
-            // Track current player using an array for mutability
             save saveGame = new save();
-            //int currentPlayer = 0;
-            //int currentRound = 0;
             int maxRounds = 30;
-            //double FPS = 60;
-            //double drawInterval = 1_000_000_000 / FPS; // Frame interval in nanoseconds
-            //long[] lastUpdateTime = { System.nanoTime() }; // Store last update time
 
             while (currentRound < maxRounds) {
                 if ((!tabuleiro.getGamers()[currentPlayer].getBankruptcy())) {
@@ -911,18 +524,17 @@ public class draw extends Application {
                                         stocksUI(getRoot(), (stocks) land, tabuleiro.getBank(), gamer, gamer.getPortfolio(),
                                             rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), land);
                                     } 
-                                    else {
-                                    // EU NAO SEI OQ FAZER MAIS!!!
-                                    }
                                 }
                             }
                         });
                     }
-                    if (currentRound >= maxRounds){}
-                            //stop();
+                    if (currentRound >= maxRounds) {
+                        System.out.println("Quantidade máxima de rodadas atingida!");
+                        return;
+                    }
                     else if (gamer.checkVictory(tabuleiro.getBank(), tabuleiro.getStocksQuantity()) == 1) {
-                            System.out.println("Jogador " + (currentPlayer + 1) + " venceu o jogo!");
-                            //stop(); // Stop the game loop
+                        System.out.println("Jogador " + (currentPlayer + 1) + " venceu o jogo!");
+                        return;
                     } 
                     else {
                         saveGame.saveGame(tabuleiro.getGamers(),monopoly.board.getPlayers());
@@ -934,8 +546,6 @@ public class draw extends Application {
                             currentRound++;
                         }
                         updateUI();
-                        // Update time
-                        //lastUpdateTime[0] = currentTime;
                     } 
                     
                 }
