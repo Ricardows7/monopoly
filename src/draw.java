@@ -597,7 +597,7 @@
                             System.out.println("Jogador " + (currentPlayer + 1) + " venceu o jogo!");
                             stop(); // Stop the game loop
                         } else {
-                            saveGame.saveGame(tabuleiro.getGamers(),tabuleiro);
+                            saveGame.saveGame(tabuleiro.getGamers(),monopoly.board.getPlayers());
                             currentPlayer++; // Move to next player
                             if (currentPlayer >= monopoly.board.getPlayers()) {
                                 currentPlayer = 0;
@@ -609,7 +609,7 @@
                         // Update time
                         lastUpdateTime[0] = currentTime;
                     } else if (tabuleiro.getGamers()[currentPlayer].getBankruptcy()) {
-                        saveGame.saveGame(tabuleiro.getGamers(),tabuleiro);
+                        saveGame.saveGame(tabuleiro.getGamers(),monopoly.board.getPlayers());
                         currentPlayer++; // Move to next player
                         if (currentPlayer >= monopoly.board.getPlayers()) {
                             currentPlayer = 0;
