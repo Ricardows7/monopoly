@@ -937,7 +937,7 @@ public class draw extends Application {
     
                             case DIGIT1: // Melhorar
                                 if (hasPlayed) {
-                                    if (gamer.improveProperty(tabuleiro., tabuleiro.getBank())) {
+                                    if (land instanceof property && gamer.improveProperty((property)land, tabuleiro.getBank())) {
                                         statusLabel.setText("Propriedade melhorada com sucesso.");
                                     } else {
                                         statusLabel.setText("Falha ao melhorar a propriedade.");
@@ -949,7 +949,7 @@ public class draw extends Application {
     
                             case DIGIT2: // Hipotecar
                                 if (hasPlayed) {
-                                    if ((land instance of property) && gamer.mortgage((property)land)) {
+                                    if ((land instanceof property) && gamer.mortgage((property)land)) {
                                         statusLabel.setText("Propriedade hipotecada com sucesso.");
                                     } else {
                                         statusLabel.setText("Falha ao hipotecar a propriedade.");

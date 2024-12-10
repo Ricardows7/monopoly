@@ -78,10 +78,12 @@ public class player {
         position = (position + distance) % totalSquares;
     }
     
-    public void improveProperty(property land, bank comp)
+    public boolean improveProperty(property land, bank comp)
     {
         if (comp.getOwner(position) == id)
-            land.improve(money);
+            return land.improve(money);
+
+        return false;
     }
 
     public boolean verifyOwnership (bank comp)
