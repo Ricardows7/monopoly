@@ -43,6 +43,10 @@
                     monopoly.board tabuleiro = start.startBoard(numP, 40);
                     loadGame.getSave(tabuleiro.getGamers(), tabuleiro);
                 }
+                else {
+                    System.out.println("Crie um novo jogo!");
+                    return;
+                }
             }
 
             initializer start = new initializer();
@@ -438,8 +442,8 @@
             launch(args);
         }
 
-        private int currentPlayer = 0;
-        public int currentRound = 0;
+       // private int currentPlayer = 0;
+       // public int currentRound = 0;
 
         private boolean quit = false;
         private String lastKeyPressed = "";
@@ -521,6 +525,8 @@
 */
         public void startGameLoop(int totalPlayers, monopoly.board tabuleiro) {
             // Track current player using an array for mutability
+            int currentPlayer = 0;
+            int currentRound = 0;
             int maxRounds = 30;
             double FPS = 60;
             double drawInterval = 1_000_000_000 / FPS; // Frame interval in nanoseconds
