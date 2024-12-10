@@ -425,21 +425,21 @@
         } else {
             comp.sellProperties(receiver, giver, owner, buyer, buyerId, place, true);
         }
-        root.getChildren().remove(buttonBox); // Remove os botões
+        //root.getChildren().remove(buttonBox); // Remove os botões
     });
 
     buyButtons[2].setOnAction(e -> {
         prop.improve(buyer);
-        root.getChildren().remove(buttonBox); // Remove os botões
+        //root.getChildren().remove(buttonBox); // Remove os botões
     });
 
     buyButtons[3].setOnAction(e -> {
         prop.getMortgage(buyer);
-        root.getChildren().remove(buttonBox); // Remove os botões
+        //root.getChildren().remove(buttonBox); // Remove os botões
     });
 
     buyButtons[0].setOnAction(e -> {
-        root.getChildren().remove(buttonBox); // Remove os botões
+        //root.getChildren().remove(buttonBox); // Remove os botões
         if (onPassTurn != null) {
             onPassTurn.run(); // Callback só executa no botão "Pass turn"
         }
