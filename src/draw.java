@@ -544,50 +544,50 @@
                         
                         if (!gamer.checkIfBroke()) {
                             diceUI(root, tabuleiro.getDie());
-                        }
-                        if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(), tabuleiro.getSquaresQuantity())) {
+                            if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(), tabuleiro.getSquaresQuantity())) {
 
-                            movePlayer(gamer, tabuleiro.getDie().checkTotalValue());
-                            int stocks = tabuleiro.getBank().getOwner(gamer.getPosition());
-                            if (stocks != -1)
-                                stocks = tabuleiro.getGamers()[stocks].checkStocks();
+                                movePlayer(gamer, tabuleiro.getDie().checkTotalValue());
+                                int stocks = tabuleiro.getBank().getOwner(gamer.getPosition());
+                                if (stocks != -1)
+                                    stocks = tabuleiro.getGamers()[stocks].checkStocks();
                             
-                            gamer.update(tabuleiro.getLocation(gamer.getPosition()), tabuleiro.getBank(),
-                                        tabuleiro.getSquaresQuantity(), stocks, tabuleiro.getGamers(),
-                                        monopoly.board.getPlayers(), gamer.getId());
+                                gamer.update(tabuleiro.getLocation(gamer.getPosition()), tabuleiro.getBank(),
+                                            tabuleiro.getSquaresQuantity(), stocks, tabuleiro.getGamers(),
+                                            monopoly.board.getPlayers(), gamer.getId());
 
-                            movePlayer(gamer, gamer.getSpecialDistance());
-                            gamer.zeraSpecialDistance();
+                                movePlayer(gamer, gamer.getSpecialDistance());
+                                gamer.zeraSpecialDistance();
 
-                        }
-                        // Handle game logic (bankruptcy, victory, etc.)
-                        if (!gamer.getBankruptcy() && !(tabuleiro.getLocation(gamer.getPosition()) instanceof special)) {
-                            squares land = tabuleiro.getLocation(gamer.getPosition()); // separa o terreno e modo
+                            }
+                            // Handle game logic (bankruptcy, victory, etc.)
+                            if (!gamer.getBankruptcy() && !(tabuleiro.getLocation(gamer.getPosition()) instanceof special)) {
+                                squares land = tabuleiro.getLocation(gamer.getPosition()); // separa o terreno e modo
                                                                                     // capitalista (nao troca)
 
-                            player rival = monopoly.board.getPlayer(tabuleiro.getBank().getOwner(gamer.getPosition()));
+                                player rival = monopoly.board.getPlayer(tabuleiro.getBank().getOwner(gamer.getPosition()));
 
-                            if (land instanceof property) {
-                                propertyUI(getRoot(), (property) land, gamer, tabuleiro.getBank(), gamer.getPortfolio(),
-                                        rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), gamer.getId(), land);
-                            } else if (land instanceof stocks) {
-                                stocksUI(getRoot(), (stocks) land, tabuleiro.getBank(), gamer, gamer.getPortfolio(),
-                                        rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), land);
-                            } else {
-                                // EU NAO SEI OQ FAZER MAIS!!!
+                                if (land instanceof property) {
+                                    propertyUI(getRoot(), (property) land, gamer, tabuleiro.getBank(), gamer.getPortfolio(),
+                                            rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), gamer.getId(), land);
+                                } else if (land instanceof stocks) {
+                                    stocksUI(getRoot(), (stocks) land, tabuleiro.getBank(), gamer, gamer.getPortfolio(),
+                                            rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), land);
+                                } else {
+                                    // EU NAO SEI OQ FAZER MAIS!!!
+                                }
                             }
-                        }
-                        if (currentRound >= maxRounds)
-                            stop();
-                        else if (gamer.checkVictory(tabuleiro.getBank(), tabuleiro.getStocksQuantity()) == 1) {
-                            System.out.println("Jogador " + (currentPlayer + 1) + " venceu o jogo!");
-                            stop(); // Stop the game loop
-                        } else {
-                            saveGame.saveGame(tabuleiro.getGamers(),monopoly.board.getPlayers());
-                            currentPlayer++; // Move to next player
-                            if (currentPlayer >= monopoly.board.getPlayers()) {
-                                currentPlayer = 0;
-                                currentRound++;
+                            if (currentRound >= maxRounds)
+                                stop();
+                            else if (gamer.checkVictory(tabuleiro.getBank(), tabuleiro.getStocksQuantity()) == 1) {
+                                System.out.println("Jogador " + (currentPlayer + 1) + " venceu o jogo!");
+                                stop(); // Stop the game loop
+                            } else {
+                                saveGame.saveGame(tabuleiro.getGamers(),monopoly.board.getPlayers());
+                                currentPlayer++; // Move to next player
+                                if (currentPlayer >= monopoly.board.getPlayers()) {
+                                    currentPlayer = 0;
+                                    currentRound++;
+                                }
                             }
                         }
                         // Update time
