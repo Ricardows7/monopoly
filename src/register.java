@@ -41,6 +41,10 @@ public class register {
     
     public boolean checkMonopoly(int set, int owner_id)
     {
+
+        if (owner_id == -1 || owner_id == 4)
+            return false;
+            
         int counter = 0;
 
         for (int i = 0; i < CAMPS; i++)
@@ -59,7 +63,7 @@ public class register {
     {
         if (owner_id == -1 || owner_id == 4)
             return false;
-            
+
         int monopoly[] = new int[SETS];
         for (int i = 0; i < SETS; i++)
         {
