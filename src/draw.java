@@ -540,7 +540,7 @@ public class draw extends Application {
                                         }
                                     }});
                                 } else {
-                                    statusLabel.setText("Você já jogou nesta rodada.");
+                                    statusLabel.setText("You already threw the die");
                                 }
                                 break;
     
@@ -548,25 +548,25 @@ public class draw extends Application {
                                 if (hasPlayed.get()) {
                                     if (land instanceof property && gamer.improveProperty((property)land, tabuleiro.getBank())) {
                                         updateMoneyLabels(gamer);
-                                        statusLabel.setText("Propriedade melhorada com sucesso.");
+                                        statusLabel.setText("Property was leveled up.");
                                     } else {
-                                        statusLabel.setText("Falha ao melhorar a propriedade.");
+                                        statusLabel.setText("There was an error leveling up property.");
                                     }
                                 } else {
-                                    statusLabel.setText("Você precisa rolar o dado primeiro.");
+                                    statusLabel.setText("You need to throw the die first.");
                                 }
                                 break;
     
                             case W: // Hipotecar
                                 if (hasPlayed.get()) {
                                     if ((land instanceof property) && gamer.mortgage((property)land)) {
-                                        statusLabel.setText("Propriedade hipotecada com sucesso.");
+                                        statusLabel.setText("Property mortgaged succesfully.");
                                         updateMoneyLabels(gamer);
                                     } else {
-                                        statusLabel.setText("Falha ao hipotecar a propriedade.");
+                                        statusLabel.setText("There was an error mortgaging property.");
                                     }
                                 } else {
-                                    statusLabel.setText("Você precisa rolar o dado primeiro.");
+                                    statusLabel.setText("You need to throw the die first.");
                                 }
                                 break;
     
@@ -576,7 +576,7 @@ public class draw extends Application {
                                     boolean foi = false;
                                     if ((owner == gamer.getId()) || (owner == -1))
                                     {
-                                        statusLabel.setText("Você já é dono dessa propriedade!");
+                                        statusLabel.setText("You're alreary the property's owner");
                                         break;
                                     }
                                     if (owner != 4)
@@ -590,12 +590,12 @@ public class draw extends Application {
 
                                     if (foi) {
                                         updateMoneyLabels(gamer);
-                                        statusLabel.setText("Propriedade comprada com sucesso.");
+                                        statusLabel.setText("Property bought succesfully");
                                     } else {
-                                        statusLabel.setText("Falha ao comprar a propriedade.");
+                                        statusLabel.setText("There was an error buying the property");
                                     }
                                 } else {
-                                    statusLabel.setText("Você precisa rolar o dado primeiro.");
+                                    statusLabel.setText("You need to throw the die first.");
                                 }
                                 break;
     
@@ -603,14 +603,14 @@ public class draw extends Application {
                                 if (hasPlayed.get()) {
                                     saveGame.saveGame(tabuleiro.getGamers(), monopoly.board.getPlayers());
                                     playerTurnCompleted.set(true);
-                                    statusLabel.setText("Você passou a vez.");
+                                    statusLabel.setText("You passed your turn.");
                                 } else {
-                                    statusLabel.setText("Você precisa rolar o dado primeiro.");
+                                    statusLabel.setText("You need to throw the die first.");
                                 }
                                 break;
     
                             default:
-                                statusLabel.setText("Tecla não atribuída!");
+                                statusLabel.setText("Invalid key.");
                                 break;
                         }
                     }
