@@ -38,24 +38,32 @@ public class initializer {
     
     public void setar(monopoly.board tabuleiro, propInfo specifications, int squaresQuantity)
     {
+        property house = new property(0, 0, 0, 0, 0, 0, 0, null);
+        stocks market = new stocks(0);
+        special circus = new special(0, 0, null);
+
         for (int i = 0; i < squaresQuantity; i++) {
             squares land = tabuleiro.getLocation(i);
             if (land != null) {
                 land.setPosition(i);
                 if (land instanceof property) {
-                    land.setType(1);
+                    house.setType(1);
                     int value1 = specifications.getStartingMortgage(i);
                     float value2 = specifications.getMultiplier(i, 3);
                     log register = new log(value1, value2);
-                    land = new property(specifications.getSetType(i), specifications.getStartingValue(i),
+                    house = new property(specifications.getSetType(i), specifications.getStartingValue(i),
                             specifications.getStartingHouses(i), specifications.getStartingRent(i),
                             specifications.getMultiplier(i, 1), specifications.getMultiplier(i, 2),
                             specifications.getMultiplier(i, 3), register);
+                    tabuleiro.putOnPlace(house, i);
                 } else if (land instanceof stocks) {
-                    land.setType(2);
-                    land = new stocks(5000);
+                    market.setType(2);
+                    market = new stocks(5000);
+                    tabuleiro.putOnPlace(market, i);
                 } else
-                    land.setType(3);
+                {
+                    circus.setType(3);
+                }
             }
         }
     }

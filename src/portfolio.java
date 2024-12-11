@@ -68,4 +68,12 @@ public class portfolio{
                 value = value && ((property) place).update(this, money, comp);
         return value;
     }
+
+    public void inserirSquaresEmPosicaoEspecifica(squares novoSquare, int posicao) {
+        if (posicao >= 0 && posicao <= properties.size()) { // Verifica se a posição é válida
+            properties.add(posicao, novoSquare);
+        } else {
+            throw new IndexOutOfBoundsException("Posição inválida: " + posicao);
+        }
+    }
 }
