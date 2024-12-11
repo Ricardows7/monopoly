@@ -513,7 +513,7 @@ public class draw extends Application {
                                             movePlayer(gamer, lastPos, tabuleiro.getDie().checkTotalValue());
     
                                             int stocks = tabuleiro.getBank().getOwner(gamer.getPosition());
-                                            if (stocks != -1)
+                                            if ((stocks != -1) && (stocks != 4))
                                                 stocks = tabuleiro.getGamers()[stocks].checkStocks();
     
                                             gamer.update(
