@@ -25,9 +25,9 @@ public class initializer {
                 stocks acao = new stocks(0);
                 tabuleiro.addLocation(acao);
             } else if (value == -1) {
-                log register = new log(0, 0);
-                property land = new property(0, 0, 0, 0, 0, 0, 0, register);
-                tabuleiro.addLocation(land);
+                //log register = new log(0, 0);
+                //property land = new property(0, 0, 0, 0, 0, 0, 0, register);
+                tabuleiro.addLocation(new property(0, 0, 0, 0, 0, 0, 0,new log(0, 0)));
             } else {
                 cartas news = new cartas();
                 special space = new special(value, 0, news);
