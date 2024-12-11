@@ -89,7 +89,7 @@ public class special extends squares{
         finishLine(money, value);   //funcao de ganhar dinheiro
         signal = taxes(money, value);   //funcao de perder dinheiro
         if (category == 5) {
-            news.setCurCard(news.randomCard())
+            news.setCurCard(news.randomCard());
             signal = news.drawACard(gamer_id, gamers, playerAmount, totalSquares, comp,news.getCurrentCard);  //noticias
         }
         return signal;

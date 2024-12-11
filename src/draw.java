@@ -1,6 +1,4 @@
-import java.util.Stack;
 import java.util.concurrent.atomic.AtomicBoolean;
-
 import javafx.event.*;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
@@ -16,7 +14,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Rectangle;
-import javafx.animation.AnimationTimer;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -30,13 +27,8 @@ public class draw extends Application {
     private static ImageView players[];
     private StackPane root;
 
-    private boolean quit = false;
-    private String lastKeyPressed = "";
-
     private Label round;
     private Label player;
-
-    private boolean playerTurnCompleted = false;
 
     public StackPane getRoot() {
         return root;
@@ -537,7 +529,7 @@ public class draw extends Application {
     
                                         }
                                         statusLabel.setText("Operação concluída com sucesso.");
-                                    });
+                                    }});
                                 } else {
                                     statusLabel.setText("Você já jogou nesta rodada.");
                                 }
@@ -546,6 +538,7 @@ public class draw extends Application {
                             case KeyCode.Q: // Melhorar
                                 if (hasPlayed.get()) {
                                     if (land instanceof property && gamer.improveProperty((property)land, tabuleiro.getBank())) {
+                                        updateMoneyLabels(gamer);
                                         statusLabel.setText("Propriedade melhorada com sucesso.");
                                     } else {
                                         statusLabel.setText("Falha ao melhorar a propriedade.");
@@ -559,6 +552,7 @@ public class draw extends Application {
                                 if (hasPlayed.get()) {
                                     if ((land instanceof property) && gamer.mortgage((property)land)) {
                                         statusLabel.setText("Propriedade hipotecada com sucesso.");
+                                        updateMoneyLabels(gamer);
                                     } else {
                                         statusLabel.setText("Falha ao hipotecar a propriedade.");
                                     }
@@ -585,6 +579,7 @@ public class draw extends Application {
                                         foi = tabuleiro.getBank().sellProperties(gamer.getPortfolio(), gamer.getWallet(), gamer.getId(), land, true);
 
                                     if (foi) {
+                                        updateMoneyLabels(gamer);
                                         statusLabel.setText("Propriedade comprada com sucesso.");
                                     } else {
                                         statusLabel.setText("Falha ao comprar a propriedade.");
