@@ -22,6 +22,9 @@ public class draw extends Application {
     private static double stepSizeY;
     private static double stepSizeX;
 
+    private int currentPlayer = 0;
+    private int currentRound = 0;
+    
     private Label[] moneyLabels;
 
     private static ImageView players[];
@@ -478,9 +481,6 @@ public class draw extends Application {
             specialButton.setOpacity(0.5);
         }
     }
-
-    private int currentPlayer = 0;
-    public int currentRound = 0;
  
     public void startGameLoopWithEventHandler(int totalPlayers, monopoly.board tabuleiro) {
         save saveGame = new save();
