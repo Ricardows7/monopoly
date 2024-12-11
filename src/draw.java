@@ -525,6 +525,12 @@ public class draw extends Application {
                                                 monopoly.board.getPlayers(), 
                                                 gamer.getId()
                                             );
+                                            
+                                            if (land instanceof special) {
+                                                special spec = (special) land;
+                                                if (spec.getCategory() == 5) {
+                                                    String cardText = spec.getEffect(spec.news.getCurrentCard());
+                                            }
     
                                             movePlayer(gamer, lastPos, gamer.getSpecialDistance());
                                             gamer.zeraSpecialDistance();
