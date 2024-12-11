@@ -576,7 +576,7 @@ public class draw extends Application {
                                         statusLabel.setText("Você já é dono dessa propriedade!");
                                         break;
                                     }
-                                    if (tabuleiro.getBank().getOwner(gamer.getPosition()) != 0)
+                                    if (tabuleiro.getBank().getOwner(gamer.getPosition()) != 4)
                                     {
                                         player rival = monopoly.board.getPlayer(owner);
                                         foi = tabuleiro.getBank().sellProperties(gamer.getPortfolio(), rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), gamer.getId(), land, true);
