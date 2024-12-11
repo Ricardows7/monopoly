@@ -522,6 +522,7 @@ public class draw extends Application {
                                                 special spec = (special) land;
                                                 if (spec.getCategory() == 5) {
                                                     String cardText = spec.getEffect(spec.getNews().getCurCard());
+                                                    textUI(root, cardText);
                                             }
     
                                             movePlayer(gamer, lastPos, gamer.getSpecialDistance());
