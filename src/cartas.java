@@ -8,6 +8,7 @@ public class cartas {
 
     static int numCards;
     static List<String> allCards = new ArrayList<String>();
+    private currentCard;
 
     public cartas() {
 
@@ -20,6 +21,16 @@ public class cartas {
             numCards = allCards.size();
         }
 
+    }
+    private void setCurrentCard(int n) {
+
+        currentCard = n;
+        
+    }
+    private int getCurrentCard() {
+
+        return currentCard;
+        
     }
     private String getCard(int n) {
 

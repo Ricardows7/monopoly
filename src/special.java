@@ -74,6 +74,7 @@ public class special extends squares{
         return news.getCardEffect(cardId);
         
     }
+
     
     public int fallSpecial (wallet money, long value, player[] gamers, int position, int gamer_id, int playerAmount, int totalSquares, bank comp)
     {
@@ -83,8 +84,8 @@ public class special extends squares{
         finishLine(money, value);   //funcao de ganhar dinheiro
         signal = taxes(money, value);   //funcao de perder dinheiro
         if (category == 5) {
-            int rand = news.randomCard();
-            signal = news.drawACard(gamer_id, gamers, playerAmount, totalSquares, comp,rand);  //noticias
+            news.setCurrentCard(news.randomCard())
+            signal = news.drawACard(gamer_id, gamers, playerAmount, totalSquares, comp,news.getCurrentCard);  //noticias
         }
         return signal;
     }
