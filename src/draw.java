@@ -576,10 +576,11 @@ public class draw extends Application {
                                         statusLabel.setText("Você já é dono dessa propriedade!");
                                         break;
                                     }
-                                    if (tabuleiro.getBank().getOwner(gamer.getPosition()) != 4)
+                                    if (owner != 4)
                                     {
+                                        System.out.println("VALOR DO DONO E: " + owner);
                                         player rival = monopoly.board.getPlayer(owner);
-                                        foi = gamer.playerNegotiation(tabuleiro.getBank(), rival.getPortfolio(), rival.getWallet(), land, true)
+                                        foi = gamer.playerNegotiation(tabuleiro.getBank(), rival.getPortfolio(), rival.getWallet(), land, true);
                                     }
                                     else
                                         foi = gamer.bankNegotiation(tabuleiro.getBank(), land, false);

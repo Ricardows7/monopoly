@@ -128,6 +128,8 @@ public class player {
     
     public boolean playerNegotiation(bank comp, portfolio giver, wallet owner, squares place, boolean mode) //compra forcada
     {
+        if (giver == null)
+            return false;
         return comp.sellProperties(resources, giver, owner, money, id, place, mode);
     }
 
