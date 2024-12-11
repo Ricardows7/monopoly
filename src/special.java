@@ -69,6 +69,12 @@ public class special extends squares{
         return 0;
     }
 
+    public String getEffect(int cardId) {
+
+        return news.getCardEffect(cardId);
+        
+    }
+    
     public int fallSpecial (wallet money, long value, player[] gamers, int position, int gamer_id, int playerAmount, int totalSquares, bank comp)
     {
         int signal = 0;
