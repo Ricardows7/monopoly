@@ -23,14 +23,17 @@ public class initializer {
             //System.out.println(value);
             if (value == -2) {
                 stocks acao = new stocks(0);
+                acao.setLocation(i);
                 tabuleiro.addLocation(acao);
             } else if (value == -1) {
-                //log register = new log(0, 0);
-                //property land = new property(0, 0, 0, 0, 0, 0, 0, register);
-                tabuleiro.addLocation(new property(0, 0, 0, 0, 0, 0, 0,new log(0, 0)));
+                log register = new log(0, 0);
+                property land = new property(0, 0, 0, 0, 0, 0, 0, register);
+                land.setLocation(i);
+                tabuleiro.addLocation(land);
             } else {
                 cartas news = new cartas();
                 special space = new special(value, 0, news);
+                space.setLocation(i);
                 tabuleiro.addLocation(space);
             }
         }
