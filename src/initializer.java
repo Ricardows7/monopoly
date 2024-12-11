@@ -20,6 +20,7 @@ public class initializer {
     {
         for (int i = 0; i < squaresQuantity; i++) {
             int value = data.getLine(i);
+            System.out.println(value);
             if (value == -2) {
                 stocks acao = new stocks(0);
                 tabuleiro.addLocation(acao);
