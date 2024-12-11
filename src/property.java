@@ -143,7 +143,7 @@ public class property extends squares{
 
     public int getDuration()
     {
-        return getDuration();
+        return register.getDuration();
     }
 
     public boolean isMortgaged()
