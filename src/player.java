@@ -168,6 +168,11 @@ public class player {
     }
     public portfolio getPortfolio()
     {
+        if (resources == null)
+        {
+            System.out.println("NAO TEM PORTFOLIO DO PLAYER " + id);
+            return null;
+        }
         return resources;
     }
 
