@@ -522,14 +522,13 @@ public class draw extends Application {
                                                 special spec = (special) land;
                                                 if (spec.getCategory() == 5) {
                                                     String cardText = spec.getEffect(spec.getNews().getCurCard());
-                                                    textUI(root, cardText);
+                                                    statusLabel.setText(cardText);
                                             }
     
                                             movePlayer(gamer, lastPos, gamer.getSpecialDistance());
                                             gamer.zeraSpecialDistance();
     
                                         }
-                                        statusLabel.setText("Operação concluída com sucesso.");
                                     }});
                                 } else {
                                     statusLabel.setText("Você já jogou nesta rodada.");
@@ -574,7 +573,7 @@ public class draw extends Application {
                                     if (tabuleiro.getBank().getOwner(gamer.getPosition()) != 4)
                                     {
                                         player rival = monopoly.board.getPlayer(owner);
-                                        foi = gamer.playerNegotiation(tabuleiro.getBank(), rival.getPortfolio(), rival.getWallet(), land, true)
+                                        foi = gamer.playerNegotiation(tabuleiro.getBank(), rival.getPortfolio(), rival.getWallet(), land, true);
                                     }
                                     else
                                         foi = gamer.bankNegotiation(tabuleiro.getBank(), land, false);
