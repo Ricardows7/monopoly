@@ -571,7 +571,7 @@ public class draw extends Application {
                                 if (hasPlayed.get() && (!(land instanceof special))) {
                                     int owner = tabuleiro.getBank().getOwner(gamer.getPosition());
                                     boolean foi = false;
-                                    if (owner == gamer.getId())
+                                    if ((owner == gamer.getId()) || (owner == -1))
                                     {
                                         statusLabel.setText("Você já é dono dessa propriedade!");
                                         break;
