@@ -558,7 +558,7 @@ public class draw extends Application {
     
                             case W: // Hipotecar
                                 if (hasPlayed.get()) {
-                                    if ((land instanceof property) && gamer.mortgage((property)land)) {
+                                    if ((land instanceof property) && gamer.mortgage((property)land) && gamer.verifyOwnership(tabuleiro.getBank())) {
                                         statusLabel.setText("Property mortgaged succesfully.");
                                         updateMoneyLabels(gamer);
                                     } else {
