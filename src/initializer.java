@@ -20,7 +20,7 @@ public class initializer {
     {
         for (int i = 0; i < squaresQuantity; i++) {
             int value = data.getLine(i);
-            System.out.println(value);
+            //System.out.println(value);
             if (value == -2) {
                 stocks acao = new stocks(0);
                 tabuleiro.addLocation(acao);
@@ -65,17 +65,21 @@ public class initializer {
         for (int i = 0; i < 40; i++)
         {
             squares land = map.search(i);
+            System.out.print("Quadrado " + i);
             if (land instanceof property) {
                 comp.addProp(land);
                 comp.setOwner(i, 4);
                 comp.setSet(i, specification.getSetType(i));
+                System.out.println(" E PROPERTY!");
             } else if (land instanceof stocks) {
                 comp.addProp(land);
                 comp.setOwner(i, 4);
                 comp.setSet(i, -1);
+                System.out.println(" E STOCKS");
             }
             else
             {
+                System.out.println("E SPECIAL");
                 comp.setOwner(i, -1);
                 comp.setSet(i, -1);
             }
