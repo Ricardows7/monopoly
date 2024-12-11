@@ -932,7 +932,7 @@ public class draw extends Application {
                                 }
                                 break;
     
-                            case KeyCode.W: // Hipotecar
+                            case W: // Hipotecar
                                 if (hasPlayed.get()) {
                                     if ((land instanceof property) && gamer.mortgage((property)land)) {
                                         statusLabel.setText("Propriedade hipotecada com sucesso.");
@@ -944,8 +944,8 @@ public class draw extends Application {
                                 }
                                 break;
     
-                            case KeyCode.E: // Comprar
-                                if (hasPlayed.get()) {
+                            case E: // Comprar
+                                if (hasPlayed.get() && (!(land instanceof special))) {
                                     int owner = tabuleiro.getBank().getOwner(gamer.getPosition());
                                     boolean foi = false;
                                     if (owner == gamer.getId())
