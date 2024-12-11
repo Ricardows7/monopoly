@@ -33,6 +33,21 @@ public class initializer {
                 special space = new special(value, 0, news);
                 tabuleiro.addLocation(space);
             }
+
+            if (tabuleiro.getLocation(i) instanceof property)
+            {
+                System.out.println("FOI PROPERTY");
+            }
+            else if (tabuleiro.getLocation(i) instanceof stocks)
+            {
+                System.out.println("FOI STOCKS");
+            }
+            else if (tabuleiro.getLocation(i) instanceof special)
+            {
+                System.out.println("FOI SPECIAL");
+            }
+            else
+                System.out.println("FOI NADA");
         }
     }
     
