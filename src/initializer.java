@@ -66,11 +66,16 @@ public class initializer {
             squares land = map.search(i);
             if (land instanceof property) {
                 comp.addProp(land);
-                comp.setOwner(i, 0);
+                comp.setOwner(i, 4);
                 comp.setSet(i, specification.getSetType(i));
             } else if (land instanceof stocks) {
                 comp.addProp(land);
-                comp.setOwner(i, 0);
+                comp.setOwner(i, 4);
+                comp.setSet(i, -1);
+            }
+            else
+            {
+                comp.setOwner(i, -1);
                 comp.setSet(i, -1);
             }
         }
