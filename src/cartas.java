@@ -6,8 +6,8 @@ import java.lang.Math;
 
 public class cartas {
 
-    static int numCards;
-    static List<String> allCards = new ArrayList<String>();
+    private static int numCards;
+    private static List<String> allCards = new ArrayList<String>();
     private int currentCard;
 
     public cartas() {

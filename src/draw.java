@@ -161,7 +161,6 @@ public class draw extends Application {
 
     private ImageView createPlayerViewer(ImageView boardViewer, int id) {
         String c = String.valueOf(id + 1);
-        System.out.println("player" + c);
         ImageView playerViewer = new ImageView(imageManager.getImage("player" + c));
         playerViewer.setPreserveRatio(true);
         playerViewer.fitWidthProperty().bind(boardViewer.fitWidthProperty().multiply(0.05));
@@ -495,6 +494,7 @@ public class draw extends Application {
         // UI para exibir mensagens
         Label statusLabel = new Label();
         root.getChildren().add(statusLabel);
+        statusLabel.setText("ENTER - Throw die\nSPACE - Pass turn\nQ - Improve property\nW - Mortgage property\nE - Buy Property");
         EventHandlerHolder gameEventHandler = new EventHandlerHolder();
         // Configurando o EventHandler para capturar teclas
         gameEventHandler.handler = event  -> {
