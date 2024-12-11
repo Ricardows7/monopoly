@@ -227,7 +227,7 @@ public class draw extends Application {
 
     private void updateUI() {
         round.setText("Round " + currentRound);
-        player.setText("Turn of Player" + (currentPlayer + 1));
+        player.setText("Turn of Player " + (currentPlayer + 1));
     }
 
     public void textUI(StackPane root, String message) {

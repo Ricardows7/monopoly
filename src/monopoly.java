@@ -103,5 +103,10 @@ public class monopoly {
         {
             map.inserirSquaresEmPosicaoEspecifica(place, position);
         }
+        
+        public void size()
+        {
+            map.imprimeLista();
+        }
     }
 }
