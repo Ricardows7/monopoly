@@ -95,7 +95,8 @@ public class player {
     {
         int owner = comp.getOwner(position);
         boolean value = true;
-
+        
+        System.out.println(place.getType());
         if (place instanceof property)
         {
             if (owner != id)
