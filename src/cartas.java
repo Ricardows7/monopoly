@@ -8,7 +8,7 @@ public class cartas {
 
     static int numCards;
     static List<String> allCards = new ArrayList<String>();
-    private currentCard;
+    private int currentCard;
 
     public cartas() {
 
