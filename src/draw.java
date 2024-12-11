@@ -1,6 +1,4 @@
-import java.util.Stack;
 import java.util.concurrent.atomic.AtomicBoolean;
-
 import javafx.event.*;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
@@ -16,7 +14,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Rectangle;
-import javafx.animation.AnimationTimer;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -30,13 +27,8 @@ public class draw extends Application {
     private static ImageView players[];
     private StackPane root;
 
-    private boolean quit = false;
-    private String lastKeyPressed = "";
-
     private Label round;
     private Label player;
-
-    private boolean playerTurnCompleted = false;
 
     public StackPane getRoot() {
         return root;
@@ -186,7 +178,7 @@ public class draw extends Application {
 
         for (int i = 0; i < playerCount; i++) {
             moneyLabels[i] = new Label("Player " + (i + 1) + " R$" + monopoly.board.getPlayer(i).getWallet().Check());
-            moneyLabels[i].setStyle("-fx-font-size: 16px; -fx-background-color: #ffffff; -fx-padding: 5px;");
+            moneyLabels[i].setStyle("-fx-font-size: 16px; -fx-padding: 5px;");
         }
 
         if (playerCount >= 1) {
@@ -205,11 +197,20 @@ public class draw extends Application {
             AnchorPane.setBottomAnchor(moneyLabels[3], 10.0); // Bottom-right
             AnchorPane.setRightAnchor(moneyLabels[3], 10.0);
         }
-        AnchorPane.setTopAnchor(round, 10.0);
-        AnchorPane.setBottomAnchor(player, 10.0);
 
+        // UI de round atual e players
+        AnchorPane.setTopAnchor(round, 10.0);
+        round.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
         round.setAlignment(Pos.CENTER);
+        AnchorPane.setLeftAnchor(round, 0.0);
+        AnchorPane.setRightAnchor(round, 0.0);
+
+        AnchorPane.setBottomAnchor(player, 10.0);
+        player.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
         player.setAlignment(Pos.CENTER);
+        AnchorPane.setLeftAnchor(player, 0.0);
+        AnchorPane.setRightAnchor(player, 0.0);
+
 
         uiPane.getChildren().addAll(moneyLabels);
         uiPane.getChildren().addAll(round, player);
@@ -530,14 +531,14 @@ public class draw extends Application {
                                                 special spec = (special) land;
                                                 if (spec.getCategory() == 5) {
                                                     String cardText = spec.getEffect(spec.getNews().getCurCard());
+                                                    statusLabel.setText(cardText);
                                             }
     
                                             movePlayer(gamer, lastPos, gamer.getSpecialDistance());
                                             gamer.zeraSpecialDistance();
     
                                         }
-                                        statusLabel.setText("Operação concluída com sucesso.");
-                                    });
+                                    }});
                                 } else {
                                     statusLabel.setText("Você já jogou nesta rodada.");
                                 }
@@ -546,6 +547,7 @@ public class draw extends Application {
                             case KeyCode.Q: // Melhorar
                                 if (hasPlayed.get()) {
                                     if (land instanceof property && gamer.improveProperty((property)land, tabuleiro.getBank())) {
+                                        updateMoneyLabels(gamer);
                                         statusLabel.setText("Propriedade melhorada com sucesso.");
                                     } else {
                                         statusLabel.setText("Falha ao melhorar a propriedade.");
@@ -559,6 +561,7 @@ public class draw extends Application {
                                 if (hasPlayed.get()) {
                                     if ((land instanceof property) && gamer.mortgage((property)land)) {
                                         statusLabel.setText("Propriedade hipotecada com sucesso.");
+                                        updateMoneyLabels(gamer);
                                     } else {
                                         statusLabel.setText("Falha ao hipotecar a propriedade.");
                                     }
@@ -586,6 +589,7 @@ public class draw extends Application {
                                         foi = gamer.bankNegotiation(tabuleiro.getBank(), land, false);
 
                                     if (foi) {
+                                        updateMoneyLabels(gamer);
                                         statusLabel.setText("Propriedade comprada com sucesso.");
                                     } else {
                                         statusLabel.setText("Falha ao comprar a propriedade.");
