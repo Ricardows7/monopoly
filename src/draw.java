@@ -281,14 +281,13 @@ public class draw extends Application {
             diceBox.setAlignment(Pos.CENTER);
 
             root.getChildren().addAll(diceBox);
-
+            if (onDiceRolled != null) {
+                onDiceRolled.run(); // Executa a próxima lógica
+            }
             // Aguarda 4 segundos e remove os dados, depois chama o callback
             PauseTransition pause = new PauseTransition(Duration.seconds(3));
             pause.setOnFinished(event -> {
                 root.getChildren().remove(diceBox);
-                if (onDiceRolled != null) {
-                    onDiceRolled.run(); // Executa a próxima lógica
-                }
             });
             pause.play();
     }
