@@ -85,12 +85,14 @@ public class initializer {
                 comp.setSet(i, -1);
                 System.out.println(" E STOCKS");
             }
-            else
+            else if (land instanceof special)
             {
                 System.out.println("E SPECIAL");
                 comp.setOwner(i, -1);
                 comp.setSet(i, -1);
             }
+            else
+                System.out.println("NAO SEI");
         }
     }
 }
