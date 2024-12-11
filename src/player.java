@@ -96,7 +96,6 @@ public class player {
         int owner = comp.getOwner(position);
         boolean value = true;
         
-        System.out.println(place.getType());
         if (place instanceof property)
         {
             if (owner != id)
@@ -109,7 +108,6 @@ public class player {
         }
         else if (place instanceof special)//considerando que so tem 3 tipos de squares
         {
-            System.out.println("EH ESPECIAL");
             if (money == null)
                 return false;
             int distance = ((special) place).fallSpecial(money, comp.getSalary(), gamers, position, id, playerAmount, totalSquares, comp);
