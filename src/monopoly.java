@@ -98,5 +98,10 @@ public class monopoly {
             }
             return values;
         }
+
+        public void putOnPlace(squares place, int position)
+        {
+            map.inserirSquaresEmPosicaoEspecifica(place, position);
+        }
     }
 }
