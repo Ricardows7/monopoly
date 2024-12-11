@@ -221,9 +221,9 @@ public class draw extends Application {
 
     }
 
-    private void updateMoneyLabels(player pl) {
+    private void updateMoneyLabels(player[] pl) {
         for (int i = 0; i < moneyLabels.length; i++) {
-            String newText = "Player " + (pl.getId() + 1) + " R$" + pl.getWallet().Check();
+            String newText = "Player " + (pl[i].getId() + 1) + " R$" + pl[i].getWallet().Check();
             moneyLabels[i].setText(newText);
         }
     }
@@ -525,6 +525,8 @@ public class draw extends Application {
                                                 monopoly.board.getPlayers(), 
                                                 gamer.getId()
                                             );
+
+                                            updateMoneyLabels(tabuleiro.getGamers());
                                             
                                             if (land instanceof special) {
                                                 special spec = (special) land;
@@ -546,7 +548,7 @@ public class draw extends Application {
                             case KeyCode.Q: // Melhorar
                                 if (hasPlayed.get()) {
                                     if (land instanceof property && gamer.improveProperty((property)land, tabuleiro.getBank())) {
-                                        updateMoneyLabels(gamer);
+                                        updateMoneyLabels(tabuleiro.getGamers());
                                         statusLabel.setText("Property was leveled up.");
                                     } else {
                                         statusLabel.setText("There was an error leveling up property.");
@@ -560,7 +562,7 @@ public class draw extends Application {
                                 if (hasPlayed.get()) {
                                     if ((land instanceof property) && gamer.mortgage((property)land) && gamer.verifyOwnership(tabuleiro.getBank())) {
                                         statusLabel.setText("Property mortgaged succesfully.");
-                                        updateMoneyLabels(gamer);
+                                        updateMoneyLabels(tabuleiro.getGamers());
                                     } else {
                                         statusLabel.setText("There was an error mortgaging property.");
                                     }
@@ -588,7 +590,7 @@ public class draw extends Application {
                                         foi = gamer.bankNegotiation(tabuleiro.getBank(), land, false);
 
                                     if (foi) {
-                                        updateMoneyLabels(gamer);
+                                        updateMoneyLabels(tabuleiro.getGamers());
                                         statusLabel.setText("Property bought succesfully");
                                     } else {
                                         statusLabel.setText("There was an error buying the property");
