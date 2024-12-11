@@ -32,6 +32,16 @@ public class cartas {
         return currentCard;
         
     }
+    public void setCurCard(int n) {
+
+        setCurrentCard(n);
+        
+    }
+    public int getCurCard() {
+
+        return getCurrentCard();
+        
+    }
     private String getCard(int n) {
 
         return allCards.get(n);
