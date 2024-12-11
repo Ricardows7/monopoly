@@ -1,5 +1,7 @@
 import java.util.Stack;
+import java.util.concurrent.atomic.AtomicBoolean;
 
+import javafx.event.*;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -76,7 +78,7 @@ public class draw extends Application {
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         primaryStage.show();
-        //startGameLoop(numP, tabuleiro); // AQUI TA DANDO ERRO!!!
+        startGameLoopWithEventHandler(numP, tabuleiro);
     }
 
     private int menu(Stage primaryStage) {
@@ -288,16 +290,16 @@ public class draw extends Application {
      * }
      */
     // DICE QUE TAVA RELATIVAMENTE OK
-    public void diceUI(VBox root, dice die, Runnable onDiceRolled) {
+    public void diceUI(StackPane root, dice die, Runnable onDiceRolled) {
         Button rollButton = new Button("Roll dice");
         VBox button = new VBox();
 
+        System.out.println("dado");
         button.setAlignment(Pos.CENTER);
         button.getChildren().add(rollButton);
         button.setPrefSize(200, 150);
         root.getChildren().addAll(button);
 
-        rollButton.setOnAction(e -> {
             die.throwDie(); // Lança os dados
             root.getChildren().remove(button);
 
@@ -325,7 +327,6 @@ public class draw extends Application {
                 }
             });
             pause.play();
-        });
     }
     /*
      * public void diceUI(StackPane root, dice die, Runnable onTurnFinished) {
@@ -871,16 +872,15 @@ public class draw extends Application {
         int maxRounds = 30;
     
         // Variável para rastrear o estado do jogo
-        boolean playerTurnCompleted = false;
-        boolean hasPlayed = false;
+        AtomicBoolean playerTurnCompleted = new AtomicBoolean(false);
+        AtomicBoolean hasPlayed = new AtomicBoolean(false);
         
         // UI para exibir mensagens
         Label statusLabel = new Label();
-        VBox root = new VBox();
         root.getChildren().add(statusLabel);
-    
+        EventHandlerHolder gameEventHandler = new EventHandlerHolder();
         // Configurando o EventHandler para capturar teclas
-        root.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+        gameEventHandler.handler = event  -> {
             if (currentRound < maxRounds) {
                 if (!tabuleiro.getGamers()[currentPlayer].getBankruptcy()) {
                     player gamer = tabuleiro.getGamers()[currentPlayer];
@@ -888,10 +888,10 @@ public class draw extends Application {
                         squares land = tabuleiro.getLocation(gamer.getPosition());
                         switch (event.getCode()) {
                             case ENTER: // Jogador rola o dado
-                                if (!hasPlayed) {
+                                if (!hasPlayed.get()) {
                                     diceUI(root, tabuleiro.getDie(), () -> {
-                                        playerTurnCompleted = true;
-                                        hasPlayed = true;
+                                        playerTurnCompleted.set(true);
+                                        hasPlayed.set(true);
                                         int lastPos = gamer.getPosition();
     
                                         if (gamer.move(tabuleiro.getPlace(gamer.getPosition()), tabuleiro.getDie(), tabuleiro.getSquaresQuantity())) {
@@ -914,19 +914,6 @@ public class draw extends Application {
                                             movePlayer(gamer, lastPos, gamer.getSpecialDistance());
                                             gamer.zeraSpecialDistance();
     
-                                            // Tratamento de lógica específica do local
-                                            if (!gamer.getBankruptcy() && !(tabuleiro.getLocation(gamer.getPosition()) instanceof special)) {
-                                                squares land = tabuleiro.getLocation(gamer.getPosition());
-                                                player rival = monopoly.board.getPlayer(tabuleiro.getBank().getOwner(gamer.getPosition()));
-    
-                                                if (land instanceof property) {
-                                                    propertyUI(getRoot(), (property) land, gamer, tabuleiro.getBank(), gamer.getPortfolio(),
-                                                        rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), gamer.getId(), land);
-                                                } else if (land instanceof stocks) {
-                                                    stocksUI(getRoot(), (stocks) land, tabuleiro.getBank(), gamer, gamer.getPortfolio(),
-                                                        rival.getPortfolio(), rival.getWallet(), gamer.getWallet(), land);
-                                                }
-                                            }
                                         }
                                         statusLabel.setText("Operação concluída com sucesso.");
                                     });
@@ -936,7 +923,7 @@ public class draw extends Application {
                                 break;
     
                             case DIGIT1: // Melhorar
-                                if (hasPlayed) {
+                                if (hasPlayed.get()) {
                                     if (land instanceof property && gamer.improveProperty((property)land, tabuleiro.getBank())) {
                                         statusLabel.setText("Propriedade melhorada com sucesso.");
                                     } else {
@@ -948,7 +935,7 @@ public class draw extends Application {
                                 break;
     
                             case DIGIT2: // Hipotecar
-                                if (hasPlayed) {
+                                if (hasPlayed.get()) {
                                     if ((land instanceof property) && gamer.mortgage((property)land)) {
                                         statusLabel.setText("Propriedade hipotecada com sucesso.");
                                     } else {
@@ -960,8 +947,8 @@ public class draw extends Application {
                                 break;
     
                             case DIGIT3: // Comprar
-                                if (hasPlayed) {
-                                    int owner = tabuleiro.getBank().getOwner(maxRounds);
+                                if (hasPlayed.get()) {
+                                    int owner = tabuleiro.getBank().getOwner(gamer.getPosition());
                                     boolean foi = false;
                                     if (owner == gamer.getId())
                                     {
@@ -987,9 +974,9 @@ public class draw extends Application {
                                 break;
     
                             case SPACE: // Jogador passa a vez
-                                if (hasPlayed) {
+                                if (hasPlayed.get()) {
                                     saveGame.saveGame(tabuleiro.getGamers(), monopoly.board.getPlayers());
-                                    playerTurnCompleted = true;
+                                    playerTurnCompleted.set(true);
                                     statusLabel.setText("Você passou a vez.");
                                 } else {
                                     statusLabel.setText("Você precisa rolar o dado primeiro.");
@@ -1002,11 +989,11 @@ public class draw extends Application {
                         }
                     }
     
-                    if (playerTurnCompleted) {
+                    if (playerTurnCompleted.get()) {
                         // Verifica condições de vitória e passa para o próximo jogador
                         if (gamer.checkVictory(tabuleiro.getBank(), tabuleiro.getStocksQuantity()) == 1) {
                             System.out.println("Jogador " + (currentPlayer + 1) + " venceu o jogo!");
-                            root.removeEventHandler(KeyEvent.KEY_PRESSED, this);
+                            root.removeEventHandler(KeyEvent.KEY_PRESSED, gameEventHandler.handler);
                             return;
                         }
     
@@ -1017,12 +1004,12 @@ public class draw extends Application {
                         }
                         if (currentRound >= maxRounds) {
                             System.out.println("Quantidade máxima de rodadas atingida!");
-                            root.removeEventHandler(KeyEvent.KEY_PRESSED, this);
+                            root.removeEventHandler(KeyEvent.KEY_PRESSED, gameEventHandler.handler);
                             return;
                         }
     
-                        playerTurnCompleted = false;
-                        hasPlayed = false;
+                        playerTurnCompleted.set(false);
+                        hasPlayed.set(false);
                         updateUI();
                     }
                 } else { // Jogador falido
@@ -1034,10 +1021,16 @@ public class draw extends Application {
                     }
                 }
             }
-        });
+        };
+        root.addEventHandler(KeyEvent.KEY_PRESSED, gameEventHandler.handler);
     }
     public static void main(String[] args) {
         launch(args);
 
     } 
+
+    private class EventHandlerHolder {
+        EventHandler<KeyEvent> handler;
+    }
+    
 }
