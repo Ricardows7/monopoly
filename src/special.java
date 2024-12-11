@@ -75,6 +75,11 @@ public class special extends squares{
         
     }
 
+    public cartas getNews() {
+
+        return news;
+        
+    }
     
     public int fallSpecial (wallet money, long value, player[] gamers, int position, int gamer_id, int playerAmount, int totalSquares, bank comp)
     {
