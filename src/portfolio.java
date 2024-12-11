@@ -76,4 +76,9 @@ public class portfolio{
             throw new IndexOutOfBoundsException("Posição inválida: " + posicao);
         }
     }
+
+    public void imprimeLista ()
+    {
+        System.out.println(properties.size());
+    }
 }

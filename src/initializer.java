@@ -48,6 +48,8 @@ public class initializer {
             }
             else
                 System.out.println("FOI NADA");
+
+            tabuleiro.size();
         }
     }
     
