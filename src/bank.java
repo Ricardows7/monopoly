@@ -65,7 +65,7 @@ public class bank {
 
     public boolean sellProperties(portfolio receiver, portfolio giver, wallet owner, wallet buyer, int buyerId, squares place, boolean mode)   //negocio entre players
     {
-        if (giver.search(place.getPosition()) == null)
+        if (giver == null || giver.search(place.getPosition()) == null)
             return false;
         return thirdPartyTransfer(receiver, giver, owner, buyer, buyerId, place, mode);  //1 para vender, 0 para trocar
     }
