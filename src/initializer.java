@@ -61,7 +61,7 @@ public class initializer {
     
     public void initialBank(portfolio map, propInfo specification, bank comp)
     {
-        for (int i = 0; i < map.size(); i++)
+        for (int i = 0; i < 40; i++)
         {
             squares land = map.search(i);
             if (land instanceof property) {
