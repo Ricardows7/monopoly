@@ -294,7 +294,6 @@ public class draw extends Application {
         Button rollButton = new Button("Roll dice");
         VBox button = new VBox();
 
-        System.out.println("dado");
         button.setAlignment(Pos.CENTER);
         button.getChildren().add(rollButton);
         button.setPrefSize(200, 150);
@@ -890,7 +889,6 @@ public class draw extends Application {
                             case ENTER: // Jogador rola o dado
                                 if (!hasPlayed.get()) {
                                     diceUI(root, tabuleiro.getDie(), () -> {
-                                        playerTurnCompleted.set(true);
                                         hasPlayed.set(true);
                                         int lastPos = gamer.getPosition();
     
@@ -922,7 +920,7 @@ public class draw extends Application {
                                 }
                                 break;
     
-                            case DIGIT1: // Melhorar
+                            case KeyCode.Q: // Melhorar
                                 if (hasPlayed.get()) {
                                     if (land instanceof property && gamer.improveProperty((property)land, tabuleiro.getBank())) {
                                         statusLabel.setText("Propriedade melhorada com sucesso.");
@@ -934,7 +932,7 @@ public class draw extends Application {
                                 }
                                 break;
     
-                            case DIGIT2: // Hipotecar
+                            case KeyCode.W: // Hipotecar
                                 if (hasPlayed.get()) {
                                     if ((land instanceof property) && gamer.mortgage((property)land)) {
                                         statusLabel.setText("Propriedade hipotecada com sucesso.");
@@ -946,7 +944,7 @@ public class draw extends Application {
                                 }
                                 break;
     
-                            case DIGIT3: // Comprar
+                            case KeyCode.E: // Comprar
                                 if (hasPlayed.get()) {
                                     int owner = tabuleiro.getBank().getOwner(gamer.getPosition());
                                     boolean foi = false;
@@ -996,8 +994,11 @@ public class draw extends Application {
                             root.removeEventHandler(KeyEvent.KEY_PRESSED, gameEventHandler.handler);
                             return;
                         }
-    
-                        currentPlayer++;
+                        if(!hasPlayed.get())
+                            hasPlayed.set(true);
+                        else
+                            currentPlayer++;
+                            
                         if (currentPlayer >= monopoly.board.getPlayers()) {
                             currentPlayer = 0;
                             currentRound++;
