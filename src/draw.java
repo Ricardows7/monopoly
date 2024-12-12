@@ -591,7 +591,7 @@ public class draw extends Application {
 
                                     if (foi) {
                                         updateMoneyLabels(tabuleiro.getGamers());
-                                        statusLabel.setText("Property bought succesfully");
+                                        statusLabel.setText("Property bought succesfully for R$" + land.getValue());
                                     } else {
                                         statusLabel.setText("There was an error buying the property");
                                     }
