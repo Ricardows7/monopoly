@@ -65,7 +65,8 @@ public class property extends squares{
 
     public int getValue ()
     {
-        return (int) (value * estimateValue(1));
+        System.out.println(value);
+        return Math.round((value) * estimateValue(1));
     }
     
     public int getUpgradeValue()
