@@ -18,6 +18,8 @@ public class bank {
             return false;
 
         value = place.getValue();
+
+        System.out.println("O valor total e " + value);
         
         if (sell && exchange(this, money, value))   //sell para jogador vender!
         {
@@ -45,7 +47,6 @@ public class bank {
         
         value = place.getValue();
 
-        System.out.println("O valor total e " + value);
         if (!mode || (mode && exchange(buyer, owner, value)))
         {
             receiver.addProp(place);
