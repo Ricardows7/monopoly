@@ -43,13 +43,13 @@ public class initializer {
     {
         property house = new property(0, 0, 0, 0, 0, 0, 0, null);
         stocks market = new stocks(0);
-        special circus = new special(0, 0, null);
+        portfolio lands = new portfolio();
 
         for (int i = 0; i < squaresQuantity; i++) {
             squares land = tabuleiro.getLocation(i);
             if (land != null) {
-                land.setPosition(i);
                 if (land instanceof property) {
+                    house.setPosition(i);
                     house.setType(1);
                     int value1 = specifications.getStartingMortgage(i);
                     float value2 = specifications.getMultiplier(i, 3);
@@ -58,17 +58,22 @@ public class initializer {
                             specifications.getStartingHouses(i), specifications.getStartingRent(i),
                             specifications.getMultiplier(i, 1), specifications.getMultiplier(i, 2),
                             specifications.getMultiplier(i, 3), register);
-                    tabuleiro.putOnPlace(house, i);
+                    lands.addProp(land);
                 } else if (land instanceof stocks) {
+                    market.setPosition(i);
                     market.setType(2);
                     market = new stocks(5000);
-                    tabuleiro.putOnPlace(market, i);
-                } else
-                {
+                    lands.addProp(market);
+                } else {
+                    special circus = new special((special) land.getCategory(), 0, (special) land.getNews());
+                    circus.setPosition(i);
                     circus.setType(3);
+                    lands.addProp(circus);
                 }
             }
         }
+        
+        tabuleiro.setMap(lands);
     }
     
     public void initialBank(portfolio map, propInfo specification, bank comp)

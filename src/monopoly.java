@@ -73,6 +73,11 @@ public class monopoly {
         {
             return map;
         }
+
+        public void setMap(portfolio holdings)
+        {
+            map = holdings;
+        }
         public player getOwner(int position) {
             int id = comp.getOwner(position);
             return getPlayer(id);
