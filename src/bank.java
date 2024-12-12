@@ -45,6 +45,7 @@ public class bank {
         
         value = place.getValue();
 
+        System.out.println("O valor total e " + value);
         if (!mode || (mode && exchange(buyer, owner, value)))
         {
             receiver.addProp(place);

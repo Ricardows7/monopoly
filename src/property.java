@@ -39,6 +39,8 @@ public class property extends squares{
         if (multiplier == 0)
             return 1;
 
+        System.out.println("RETORNOU " + multiplier);
+
         return multiplier;
     }
     public boolean payRent(wallet player, boolean monopoly) {
