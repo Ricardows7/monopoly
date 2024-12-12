@@ -37,7 +37,7 @@ public class property extends squares{
             multiplier = state * multRent;
 
         if (multiplier == 0)
-            multiplier = 1;
+            return 1;
 
         return multiplier;
     }
