@@ -65,7 +65,7 @@ public class initializer {
                     market = new stocks(5000);
                     lands.addProp(market);
                 } else {
-                    special circus = new special((special) land.getCategory(), 0, (special) land.getNews());
+                    special circus = new special(((special)land).getCategory(), 0, ((special)land).getNews());
                     circus.setPosition(i);
                     circus.setType(3);
                     lands.addProp(circus);
