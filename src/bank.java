@@ -58,7 +58,7 @@ public class bank {
     {
         if (sell && (dataBank.getOwner(place.getPosition()) != gamerId))    //player quer vender mas nao tem propriedade
             return false;
-        else if (!sell && (dataBank.getOwner(place.getPosition()) != 0))    //player quer comprar mas banco nao tem prop
+        else if (!sell && (dataBank.getOwner(place.getPosition()) != 4))    //player quer comprar mas banco nao tem prop
             return false;
         return transfer(gamer, money, gamerId, place, sell);
     }

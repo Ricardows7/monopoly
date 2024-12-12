@@ -3,13 +3,14 @@ public class monopoly {
         private dice dado;
         private bank comp;
         private static player gamers[];
-        public portfolio map;
+        private portfolio map;
 
         private static int numPlayers;
 
         private static final int SQUARES_QUANTITY = 40;
         private static final int MAX_PLAYERS = 4;
         private static final int STOCKS_QUANTITY = 8;
+        private static final int CARDS_QUANTITY = 18;
         
         public board(int playerQnt) {
             this.dado = new dice(playerQnt);
@@ -47,6 +48,15 @@ public class monopoly {
             return gamers[id];
         }
 
+        public void putOnPlace(squares place, int position)
+        {
+            map.inserirSquaresEmPosicaoEspecifica(place, position);
+        }
+
+        public void size()
+        {
+            map.imprimeLista();
+        }
         public bank getBank() {
             return comp;
         }
@@ -62,6 +72,11 @@ public class monopoly {
         public portfolio getMap()
         {
             return map;
+        }
+
+        public void setMap(portfolio holdings)
+        {
+            map = holdings;
         }
         public player getOwner(int position) {
             int id = comp.getOwner(position);
@@ -97,16 +112,6 @@ public class monopoly {
                 values[i] = (int) gamers[i].Check();
             }
             return values;
-        }
-
-        public void putOnPlace(squares place, int position)
-        {
-            map.inserirSquaresEmPosicaoEspecifica(place, position);
-        }
-        
-        public void size()
-        {
-            map.imprimeLista();
         }
     }
 }
